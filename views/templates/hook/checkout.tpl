@@ -173,13 +173,13 @@
                     <div class="afterpay-more-info">
                         {$MOREINFO_ONE|escape:'htmlall':'UTF-8'}
                     </div>
-                    <afterpay-price-table
+                    <afterpay-placement
                             data-type="price-table"
                             data-amount="{$TOTAL_AMOUNT|escape:'htmlall':'UTF-8'}"
                             data-price-table-theme="white"
                             data-locale="{$ISO_COUNTRY_CODE|escape:'htmlall':'UTF-8'}"
                             data-currency="{$CURRENCY|escape:'htmlall':'UTF-8'}">
-                    </afterpay-price-table>
+                    </afterpay-placement>
                     <a class="afterpay-terms" href="{$TERMS_AND_CONDITIONS_LINK|escape:'htmlall':'UTF-8'}" TARGET="_blank">
                         {$TERMS_AND_CONDITIONS|escape:'htmlall':'UTF-8'}
                     </a>
