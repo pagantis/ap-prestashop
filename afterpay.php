@@ -33,7 +33,7 @@ class Afterpay extends PaymentModule
     /**
      * @var string
      */
-    public $url = 'https://afterpay.com';
+    public $url = 'https://www.afterpay.com';
 
     /**
      * @var bool
@@ -337,7 +337,7 @@ class Afterpay extends PaymentModule
             $moreInfo .= ' ' . $this->l('and billing address within the UK.');
             $templateConfigs['MOREINFO_ONE'] = $moreInfo;
             $templateConfigs['TERMS_AND_CONDITIONS'] = $this->l('Terms and conditions');
-            $termsLink = $this->l('https://www.afterpay.co.uk/en-GB/terms-of-service');
+            $termsLink = $this->l('https://www.afterpay.com/installment-agreement');
             $templateConfigs['TERMS_AND_CONDITIONS_LINK'] = $termsLink;
             $templateConfigs['TERMS_AND_CONDITIONS_LINK'] = $this->l(
                 'https://www.afterpay.co.uk/en-GB/terms-of-service'
@@ -793,9 +793,7 @@ class Afterpay extends PaymentModule
                 can only be used as a payment method for orders with a shipping and billing address within the UK.'
             );
             $templateConfigs['TERMS_AND_CONDITIONS'] = $this->l('Terms and conditions');
-            $templateConfigs['TERMS_AND_CONDITIONS_LINK'] = $this->l(
-                'https://www.afterpay.co.uk/en-GB/terms-of-service'
-            );
+            $templateConfigs['TERMS_AND_CONDITIONS_LINK'] = $this->l('https://www.afterpay.com/installment-agreement');
             $templateConfigs['LOGO_TEXT'] = $this->l("Afterpay");
             $templateConfigs['ICON'] = 'https://static.afterpay.com/app/icon-128x128.png';
             $templateConfigs['LOGO_BADGE'] = 'https://static.afterpay.com/email/logo-afterpay-colour.png';

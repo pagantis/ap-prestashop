@@ -57,8 +57,8 @@
     <div class="panel afterpay-content-form">
         <h3><i class="icon icon-credit-card"></i> {$header|escape:'htmlall':'UTF-8'}</h3>
         <div class="column-left">
-            <a target="_blank" href="{l s='https://retailers.afterpay.com/uk/prestashop/?utm_source=prestashop&utm_medium=referral&utm_campaign=global_prestashop-lead-referrals_campaign_DEC-2020&utm_content=contact-us' mod='afterpay'}" class="btn btn-default" title="Login Afterpay"><i class="icon-user"></i> {$button1|escape:'htmlall':'UTF-8'}</a><br>
-            <a target="_blank" href="{l s='https://developers.afterpay.com/docs/getting-started-with-afterpay-online' mod='afterpay'}" class="btn btn-default second" title="Getting Star"><i class="icon-user"></i> {$button2|escape:'htmlall':'UTF-8'}</a>
+            <a target="_blank" href="{l s='https://get.afterpay.com/' mod='afterpay'}" class="btn btn-default" title="Login Afterpay"><i class="icon-user"></i> {$button1|escape:'htmlall':'UTF-8'}</a><br>
+            <a target="_blank" href="{l s='https://developers.afterpay.com/afterpay-online/docs/getting-started' mod='afterpay'}" class="btn btn-default second" title="Getting Star"><i class="icon-user"></i> {$button2|escape:'htmlall':'UTF-8'}</a>
         </div>
         <div class="column-center">
             <p>
