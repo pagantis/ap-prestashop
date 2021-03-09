@@ -213,10 +213,8 @@ class AfterpayNotifyModuleFrontController extends AbstractController
         $callbackKoUrl = $this->context->link->getPageLink('order', null, null, array('step'=>3));
 
         $this->config = array(
-            'urlOK' => (Configuration::get('AFTERPAY_URL_OK') !== '') ?
-                Configuration::get('AFTERPAY_URL_OK') : $callbackOkUrl,
-            'urlKO' => (Configuration::get('AFTERPAY_URL_KO') !== '') ?
-                Configuration::get('AFTERPAY_URL_KO') : $callbackKoUrl,
+            'urlOK' => $callbackOkUrl,
+            'urlKO' => $callbackKoUrl,
             'secureKey' => Tools::getValue('key'),
         );
 
