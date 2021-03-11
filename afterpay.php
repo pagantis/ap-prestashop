@@ -148,6 +148,7 @@ class Afterpay extends PaymentModule
         Configuration::updateValue('AFTERPAY_RESTRICTED_CATEGORIES', '');
         Configuration::updateValue('AFTERPAY_ALLOWED_COUNTRIES', '["ES","FR","IT","GB"]');
         Configuration::updateValue('AFTERPAY_CSS_SELECTOR', 'default');
+        Configuration::updateValue('AFTERPAY_CSS_SELECTOR_CART', 'default');
         Configuration::updateValue('AFTERPAY_URL_OK', '');
         Configuration::updateValue('AFTERPAY_URL_KO', '');
         Configuration::updateValue('AFTERPAY_LOGS', '');
@@ -192,6 +193,7 @@ class Afterpay extends PaymentModule
         Configuration::deleteByName('AFTERPAY_RESTRICTED_CATEGORIES');
         Configuration::deleteByName('AFTERPAY_ALLOWED_COUNTRIES');
         Configuration::deleteByName('AFTERPAY_CSS_SELECTOR');
+        Configuration::deleteByName('AFTERPAY_CSS_SELECTOR_CART');
         Configuration::deleteByName('AFTERPAY_URL_OK');
         Configuration::deleteByName('AFTERPAY_URL_KO');
         Configuration::deleteByName('AFTERPAY_LOGS');
@@ -338,11 +340,7 @@ class Afterpay extends PaymentModule
             $moreInfo .= ' ' . $this->l('and billing address within the UK.');
             $templateConfigs['MOREINFO_ONE'] = $moreInfo;
             $templateConfigs['TERMS_AND_CONDITIONS'] = $this->l('Terms and conditions');
-            $termsLink = $this->l('https://www.afterpay.com/installment-agreement');
-            $templateConfigs['TERMS_AND_CONDITIONS_LINK'] = $termsLink;
-            $templateConfigs['TERMS_AND_CONDITIONS_LINK'] = $this->l(
-                'https://www.afterpay.co.uk/en-GB/terms-of-service'
-            );
+            $templateConfigs['TERMS_AND_CONDITIONS_LINK'] = $this->l('https://www.afterpay.com/installment-agreement');
             $templateConfigs['LOGO_TEXT'] = $this->l("Afterpay");
             $templateConfigs['ICON'] = 'https://static.afterpay.com/app/icon-128x128.png';
             $templateConfigs['LOGO_BADGE'] = 'https://static.afterpay.com/email/logo-afterpay-colour.png';
@@ -519,6 +517,17 @@ class Afterpay extends PaymentModule
             'required' => false,
         );
         $inputs[] = array(
+            'name' => 'AFTERPAY_CSS_SELECTOR_CART',
+            'suffix' => $this->l('The default value is \'default\'.'),
+            'desc' => $this->l('This property set the CSS selector needed to show the assets on the cart page.') .
+                ' ' . $this->l('Only change this value if it doesn\'t appear properly.'),
+            'type' => 'text',
+            'size' => 128,
+            'label' => $this->l('Cart Page CSS Selector'),
+            'col' => 8,
+            'required' => false,
+        );
+        $inputs[] = array(
             'name' => 'AFTERPAY_LOGS',
             'type' => 'checkbox',
             'label' => $this->l('Debug mode'),
@@ -599,6 +608,7 @@ class Afterpay extends PaymentModule
         $helper->fields_value['AFTERPAY_MIN_AMOUNT'] = Configuration::get('AFTERPAY_MIN_AMOUNT');
         $helper->fields_value['AFTERPAY_MAX_AMOUNT'] = Configuration::get('AFTERPAY_MAX_AMOUNT');
         $helper->fields_value['AFTERPAY_CSS_SELECTOR'] = Configuration::get('AFTERPAY_CSS_SELECTOR');
+        $helper->fields_value['AFTERPAY_CSS_SELECTOR_CART'] = Configuration::get('AFTERPAY_CSS_SELECTOR_CART');
         $helper->fields_value['AFTERPAY_LOGS_ACTIVE'] = Configuration::get('AFTERPAY_LOGS');
 
         return $helper->generateForm(array($this->getConfigForm()));
@@ -621,6 +631,7 @@ class Afterpay extends PaymentModule
         $settingsKeys[] = 'AFTERPAY_REGION';
         $settingsKeys[] = 'AFTERPAY_RESTRICTED_CATEGORIES';
         $settingsKeys[] = 'AFTERPAY_CSS_SELECTOR';
+        $settingsKeys[] = 'AFTERPAY_CSS_SELECTOR_CART';
         $settingsKeys[] = 'AFTERPAY_LOGS_ACTIVE';
 
         if (Tools::isSubmit('submit'.$this->name)) {
@@ -841,6 +852,10 @@ class Afterpay extends PaymentModule
             $templateConfigs['DESCRIPTION_TEXT_TWO'] = $desc2;
             $categoryRestriction = $this->isCartRestricted($this->context->cart);
             $simulatorIsEnabled = true;
+            $templateConfigs['PRICE_SELECTOR'] = Configuration::get('AFTERPAY_CSS_SELECTOR_CART');
+            if ($templateConfigs['PRICE_SELECTOR'] === 'default'|| $templateConfigs['PRICE_SELECTOR'] === '') {
+                $templateConfigs['PRICE_SELECTOR'] = '.cart-total .value';
+            }
         } else {
             $productId = Tools::getValue('id_product');
             if (!$productId) {
@@ -850,6 +865,13 @@ class Afterpay extends PaymentModule
             $amount = Product::getPriceStatic($productId);
             $templateConfigs['AMOUNT'] = $amount;
             $simulatorIsEnabled = self::SIMULATOR_IS_ENABLED;
+            $templateConfigs['PRICE_SELECTOR'] = Configuration::get('AFTERPAY_CSS_SELECTOR');
+            if ($templateConfigs['PRICE_SELECTOR'] === 'default'|| $templateConfigs['PRICE_SELECTOR'] === '') {
+                $templateConfigs['PRICE_SELECTOR'] = '.current-price :not(span.discount)';
+                if (version_compare(_PS_VERSION_, '1.7', 'lt')) {
+                    $templateConfigs['PRICE_SELECTOR'] = '#our_price_display';
+                }
+            }
         }
         $return = '';
         $isEnabled = Configuration::get('AFTERPAY_IS_ENABLED');
@@ -882,15 +904,8 @@ class Afterpay extends PaymentModule
                     Tools::strtoupper(Tools::substr($templateConfigs['ISO_COUNTRY_CODE'], 2, 4));
             }
             $templateConfigs['AMOUNT_WITH_CURRENCY'] = $templateConfigs['AMOUNT'] . $this->currencySymbol;
-            $templateConfigs['PRICE_SELECTOR'] = Configuration::get('AFTERPAY_CSS_SELECTOR');
-            if ($templateConfigs['PRICE_SELECTOR'] === 'default'|| $templateConfigs['PRICE_SELECTOR'] === '') {
-                $templateConfigs['PRICE_SELECTOR'] = '.current-price :not(span.discount)';
-                if (version_compare(_PS_VERSION_, '1.7', 'lt')) {
-                    $templateConfigs['PRICE_SELECTOR'] = '#our_price_display';
-                }
-                if ($this->currency === 'GBP') {
-                    $templateConfigs['AMOUNT_WITH_CURRENCY'] = $this->currencySymbol. $templateConfigs['AMOUNT'];
-                }
+            if ($this->currency === 'GBP') {
+                $templateConfigs['AMOUNT_WITH_CURRENCY'] = $this->currencySymbol. $templateConfigs['AMOUNT'];
             }
 
             $this->context->smarty->assign($templateConfigs);
