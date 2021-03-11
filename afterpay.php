@@ -321,6 +321,7 @@ class Afterpay extends PaymentModule
             } else {
                 $language = $language['language_code'];
             }
+
             $templateConfigs['ISO_COUNTRY_CODE'] = str_replace('-', '_', $language);
             // Preserve Uppercase in locale
             if (Tools::strlen($templateConfigs['ISO_COUNTRY_CODE']) == 5) {
@@ -329,7 +330,7 @@ class Afterpay extends PaymentModule
             }
             $templateConfigs['CURRENCY'] = $this->currency;
             $templateConfigs['MORE_HEADER1'] = $this->l('Always interest-free.');
-            $templateConfigs['MORE_HEADER2'] = $this->l('No extra documentation. Instant aproval.');
+            $templateConfigs['MORE_HEADER2'] = $this->l('No extra documentation. Instant approval.');
             $templateConfigs['TOTAL_AMOUNT'] = $totalAmount;
             $moreInfo = $this->l('You will be redirected to Afterpay website to fill out your payment information.');
             $moreInfo .= ' ' .$this->l('You will be redirected to our site to complete your order. Please note: ');
@@ -496,6 +497,8 @@ class Afterpay extends PaymentModule
             'label' => $this->l('Restricted Categories'),
             'name' => 'AFTERPAY_RESTRICTED_CATEGORIES',
             'col' => 7,
+            'desc' => $this->l('IMPORTANT: Only enable the categories where you DON\'T want to show Clearpay. ') .
+                $this->l('By default: UNCHECK ALL'),
             'tree' => array(
                 'id' => 'AFTERPAY_RESTRICTED_CATEGORIES',
                 'selected_categories' => json_decode(Configuration::get('AFTERPAY_RESTRICTED_CATEGORIES')),
@@ -896,7 +899,7 @@ class Afterpay extends PaymentModule
                 'views/templates/hook/' . $templateName
             );
         } else {
-            if ($templateName === 'product.tpl' && Configuration::get('AFTERPAY_LOGS') === 'on') {
+            if ($isEnabled && $templateName === 'product.tpl' && Configuration::get('AFTERPAY_LOGS') === 'on') {
                 $logMessage = '';
                 if (!$simulatorIsEnabled) {
                     $logMessage .= "Afterpay: Simulator is disabled by 'self::SIMULATOR_IS_ENABLED'. ";
@@ -911,7 +914,7 @@ class Afterpay extends PaymentModule
                     current:$productCategories."
                     . "and not allowed:". Configuration::get('AFTERPAY_RESTRICTED_CATEGORIES');
                 }
-                if (Configuration::get('AFTERPAY_LOGS') == 'on') {
+                if (Configuration::get('AFTERPAY_LOGS') == 'on' && $logMessage != '') {
                     PrestaShopLogger::addLog($logMessage, 2, null, "Afterpay", 1);
                 }
             }

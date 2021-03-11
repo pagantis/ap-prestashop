@@ -155,7 +155,9 @@ class AfterpayPaymentModuleFrontController extends AbstractController
                 'line1' => $paymentObjData['billingAddress']->address1,
                 'line2' => $paymentObjData['billingAddress']->address2,
                 'suburb' => $paymentObjData['billingAddress']->city,
+                'area1' => $paymentObjData['billingAddress']->city,
                 'state' => $paymentObjData['billingStateCode'],
+                'region' => $paymentObjData['billingStateCode'],
                 'postcode' => $paymentObjData['billingAddress']->postcode,
                 'countryCode' => $paymentObjData['billingCountryCode'],
                 'phoneNumber' => $paymentObjData['billingAddress']->phone
@@ -166,7 +168,9 @@ class AfterpayPaymentModuleFrontController extends AbstractController
                 'line1' => $paymentObjData['shippingAddress']->address1,
                 'line2' => $paymentObjData['shippingAddress']->address2,
                 'suburb' => $paymentObjData['shippingAddress']->city,
+                'area1' => $paymentObjData['shippingAddress']->city,
                 'state' => $paymentObjData['shippingStateCode'],
+                'region' => $paymentObjData['shippingStateCode'],
                 'postcode' => $paymentObjData['shippingAddress']->postcode,
                 'countryCode' => $paymentObjData['shippingCountryCode'],
                 'phoneNumber' => $paymentObjData['shippingAddress']->phone
@@ -217,7 +221,7 @@ class AfterpayPaymentModuleFrontController extends AbstractController
         }
 
         $header = $this->module->name . '/' . $this->module->version
-            . '(Prestashop/' . _PS_VERSION_ . '; PHP/' . phpversion() . '; Merchant/' . $paymentObjData['publicKey']
+            . ' (Prestashop/' . _PS_VERSION_ . '; PHP/' . phpversion() . '; Merchant/' . $paymentObjData['publicKey']
             . ') ' . _PS_BASE_URL_SSL_.__PS_BASE_URI__;
         $afterpayPaymentObj->addHeader('User-Agent', $header);
         $afterpayPaymentObj->addHeader('Country', $paymentObjData['countryCode']);

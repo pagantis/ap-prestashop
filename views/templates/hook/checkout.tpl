@@ -85,7 +85,7 @@
         margin-left: 10px;
         top: 30%;
         position: absolute;
-        display: inline;
+        display: inline !important;
     }
     .afterpay-checkout-ps1-6-logo-text {
         display: none;
