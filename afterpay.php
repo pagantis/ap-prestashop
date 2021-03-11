@@ -72,6 +72,18 @@ class Afterpay extends PaymentModule
     );
 
     /**
+     * link of terms and conditions per region
+     *
+     * @var array
+     */
+    public $termsLinkPerRegion = array(
+        'AU' => 'https://www.afterpay.com/en-AU/terms-of-service',
+        'CA' => 'https://www.afterpay.com/en-CA/instalment-agreement',
+        'NZ' => 'https://www.afterpay.com/en-NZ/terms-of-service',
+        'US' => 'https://www.afterpay.com/installment-agreement',
+    );
+
+    /**
      * @var null $shippingAddress
      */
     protected $shippingAddress = null;
@@ -340,7 +352,7 @@ class Afterpay extends PaymentModule
             $moreInfo .= ' ' . $this->l('and billing address within the UK.');
             $templateConfigs['MOREINFO_ONE'] = $moreInfo;
             $templateConfigs['TERMS_AND_CONDITIONS'] = $this->l('Terms and conditions');
-            $templateConfigs['TERMS_AND_CONDITIONS_LINK'] = $this->l('https://www.afterpay.com/installment-agreement');
+            $templateConfigs['TERMS_AND_CONDITIONS_LINK'] = $this->termsLinkPerRegion[Configuration::get('AFTERPAY_REGION')];
             $templateConfigs['LOGO_TEXT'] = $this->l("Afterpay");
             $templateConfigs['ICON'] = 'https://static.afterpay.com/app/icon-128x128.png';
             $templateConfigs['LOGO_BADGE'] = 'https://static.afterpay.com/email/logo-afterpay-colour.png';
@@ -807,7 +819,7 @@ class Afterpay extends PaymentModule
                 can only be used as a payment method for orders with a shipping and billing address within the UK.'
             );
             $templateConfigs['TERMS_AND_CONDITIONS'] = $this->l('Terms and conditions');
-            $templateConfigs['TERMS_AND_CONDITIONS_LINK'] = $this->l('https://www.afterpay.com/installment-agreement');
+            $templateConfigs['TERMS_AND_CONDITIONS_LINK'] = $this->termsLinkPerRegion[Configuration::get('AFTERPAY_REGION')];
             $templateConfigs['LOGO_TEXT'] = $this->l("Afterpay");
             $templateConfigs['ICON'] = 'https://static.afterpay.com/app/icon-128x128.png';
             $templateConfigs['LOGO_BADGE'] = 'https://static.afterpay.com/email/logo-afterpay-colour.png';
