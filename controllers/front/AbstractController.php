@@ -55,7 +55,6 @@ abstract class AbstractController extends ModuleFrontController
                 PrestaShopLogger::addLog($message, $severity, null, "Afterpay", 1);
             }
         } catch (\Exception $error) {
-            var_dump($error->getMessage()); die;
             PrestaShopLogger::addLog($error->getMessage(), $severity, null, "Afterpay", 2);
         }
     }

@@ -352,7 +352,8 @@ class Afterpay extends PaymentModule
             $moreInfo .= ' ' . $this->l('and billing address within the UK.');
             $templateConfigs['MOREINFO_ONE'] = $moreInfo;
             $templateConfigs['TERMS_AND_CONDITIONS'] = $this->l('Terms and conditions');
-            $templateConfigs['TERMS_AND_CONDITIONS_LINK'] = $this->termsLinkPerRegion[Configuration::get('AFTERPAY_REGION')];
+            $termsLink = $this->termsLinkPerRegion[Configuration::get('AFTERPAY_REGION')];
+            $templateConfigs['TERMS_AND_CONDITIONS_LINK'] = $termsLink;
             $templateConfigs['LOGO_TEXT'] = $this->l("Afterpay");
             $templateConfigs['ICON'] = 'https://static.afterpay.com/app/icon-128x128.png';
             $templateConfigs['LOGO_BADGE'] = 'https://static.afterpay.com/email/logo-afterpay-colour.png';
@@ -819,7 +820,8 @@ class Afterpay extends PaymentModule
                 can only be used as a payment method for orders with a shipping and billing address within the UK.'
             );
             $templateConfigs['TERMS_AND_CONDITIONS'] = $this->l('Terms and conditions');
-            $templateConfigs['TERMS_AND_CONDITIONS_LINK'] = $this->termsLinkPerRegion[Configuration::get('AFTERPAY_REGION')];
+            $termsLink = $this->termsLinkPerRegion[Configuration::get('AFTERPAY_REGION')];
+            $templateConfigs['TERMS_AND_CONDITIONS_LINK'] = $termsLink;
             $templateConfigs['LOGO_TEXT'] = $this->l("Afterpay");
             $templateConfigs['ICON'] = 'https://static.afterpay.com/app/icon-128x128.png';
             $templateConfigs['LOGO_BADGE'] = 'https://static.afterpay.com/email/logo-afterpay-colour.png';
@@ -879,8 +881,8 @@ class Afterpay extends PaymentModule
             $simulatorIsEnabled = self::SIMULATOR_IS_ENABLED;
             $templateConfigs['PRICE_SELECTOR'] = Configuration::get('AFTERPAY_CSS_SELECTOR');
             if ($templateConfigs['PRICE_SELECTOR'] === 'default'|| $templateConfigs['PRICE_SELECTOR'] === '') {
-                $templateConfigs['PRICE_SELECTOR'] = '.current-price :not(span.discount)';
-                $templateConfigs['PRICE_SELECTOR'] = '.current-price:not(span.discount,span.regular-price,span.discount-percentage)';
+                $templateConfigs['PRICE_SELECTOR'] =
+                    '.current-price:not(span.discount,span.regular-price,span.discount-percentage)';
                 if (version_compare(_PS_VERSION_, '1.7', 'lt')) {
                     $templateConfigs['PRICE_SELECTOR'] = '#our_price_display';
                 }
