@@ -290,6 +290,16 @@ class Afterpay extends PaymentModule
      */
     public function hookHeader()
     {
+        echo '<!-- APVersion:'. $this->version.
+            ' PS:'._PS_VERSION_.
+            ' Env:'.Configuration::get('CLEARPAY_ENVIRONMENT').
+            ' MId:'.Configuration::get('CLEARPAY_PUBLIC_KEY').
+            ' Region:'.Configuration::get('CLEARPAY_REGION').
+            ' Lang:'.$this->getCurrentLanguage().
+            ' Enabled:'.Configuration::get('CLEARPAY_IS_ENABLED').
+            ' A_Countries:'.Configuration::get('CLEARPAY_ALLOWED_COUNTRIES').
+            ' R_Cat:'.(string)Configuration::get('CLEARPAY_RESTRICTED_CATEGORIES').
+            ' -->';
         if (_PS_VERSION_ >= "1.7") {
             $this->context->controller->registerJavascript(
                 sha1(mt_rand(1, 90000)),
