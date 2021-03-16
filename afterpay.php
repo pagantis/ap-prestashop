@@ -353,13 +353,11 @@ class Afterpay extends PaymentModule
                     Tools::strtoupper(Tools::substr($templateConfigs['ISO_COUNTRY_CODE'], 2, 4));
             }
             $templateConfigs['CURRENCY'] = $this->currency;
-            $templateConfigs['MORE_HEADER1'] = $this->l('Always interest-free.');
-            $templateConfigs['MORE_HEADER2'] = $this->l('No extra documentation. Instant approval.');
+            $templateConfigs['MORE_HEADER1'] = $this->l('');
+            $templateConfigs['MORE_HEADER2'] = $this->l('');
             $templateConfigs['TOTAL_AMOUNT'] = $totalAmount;
             $moreInfo = $this->l('You will be redirected to Afterpay website to fill out your payment information.');
-            $moreInfo .= ' ' .$this->l('You will be redirected to our site to complete your order. Please note: ');
-            $moreInfo .= ' ' . $this->l('Afterpay can only be used as a payment method for orders with a shipping');
-            $moreInfo .= ' ' . $this->l('and billing address within the UK.');
+            $moreInfo .= ' ' .$this->l('You will be redirected to our site to complete your order');
             $templateConfigs['MOREINFO_ONE'] = $moreInfo;
             $templateConfigs['TERMS_AND_CONDITIONS'] = $this->l('Terms and conditions');
             $termsLink = $this->termsLinkPerRegion[Configuration::get('AFTERPAY_REGION')];

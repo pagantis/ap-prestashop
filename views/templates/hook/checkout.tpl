@@ -52,7 +52,6 @@
     .afterpay-header {
         color: #7a7a7a;
         position: relative;
-        padding-left: 120px;
         background-color: #b2fce4;
         text-align: center;
         float: left;
@@ -64,12 +63,10 @@
     }
     .afterpay-header img {
         height: 25px;
-        margin-top: 5px;
     }
     .afterpay-header-img {
-        position: absolute;
-        top: 0;
-        left: 0;
+        display: inline;
+        text-align: center;
     }
 
     .afterpay-header-text1 {
