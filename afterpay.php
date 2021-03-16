@@ -347,6 +347,9 @@ class Afterpay extends PaymentModule
             }
 
             $templateConfigs['ISO_COUNTRY_CODE'] = str_replace('-', '_', $language);
+            if ($templateConfigs['ISO_COUNTRY_CODE'] == 'ca_ES') {
+                $templateConfigs['ISO_COUNTRY_CODE'] = 'en_CA';
+            }
             // Preserve Uppercase in locale
             if (Tools::strlen($templateConfigs['ISO_COUNTRY_CODE']) == 5) {
                 $templateConfigs['ISO_COUNTRY_CODE'] = Tools::substr($templateConfigs['ISO_COUNTRY_CODE'], 0, 2) .
@@ -657,9 +660,10 @@ class Afterpay extends PaymentModule
 
         if (Tools::isSubmit('submit'.$this->name)) {
             foreach ($settingsKeys as $key) {
-                $value = trim(Tools::getValue($key));
-                if (is_array($value)) {
-                    $value = json_encode($value);
+                if (is_array(Tools::getValue($key))) {
+                    $value = json_encode(Tools::getValue($key));
+                } else {
+                    $value = trim(Tools::getValue($key));
                 }
                 if ($key === 'AFTERPAY_LOGS_ACTIVE') {
                     Configuration::updateValue('AFTERPAY_LOGS', $value);
@@ -919,6 +923,9 @@ class Afterpay extends PaymentModule
                 $language = $language['language_code'];
             }
             $templateConfigs['ISO_COUNTRY_CODE'] = str_replace('-', '_', $language);
+            if ($templateConfigs['ISO_COUNTRY_CODE'] == 'ca_ES') {
+                $templateConfigs['ISO_COUNTRY_CODE'] = 'en_CA';
+            }
             // Preserve Uppercase in locale
             if (Tools::strlen($templateConfigs['ISO_COUNTRY_CODE']) == 5) {
                 $templateConfigs['ISO_COUNTRY_CODE'] = Tools::substr($templateConfigs['ISO_COUNTRY_CODE'], 0, 2) .
