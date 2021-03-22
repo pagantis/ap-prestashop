@@ -113,120 +113,126 @@ class AfterpayPaymentModuleFrontController extends AbstractController
             .'index.php?canonical=true&fc=module&module=afterpay&controller=notify'
             .'&token='.$paymentObjData['urlToken'] . '&' . http_build_query($query)
         ;
-        \Afterpay\SDK\Model::setAutomaticValidationEnabled(true);
-        $afterpayPaymentObj = new CreateCheckout();
-        $afterpayMerchantAccount = new AfterpayMerchantAccount();
-        $afterpayMerchantAccount
-            ->setMerchantId($paymentObjData['publicKey'])
-            ->setSecretKey($paymentObjData['secretKey'])
-            ->setApiEnvironment($paymentObjData['environment'])
-        ;
-        if (!is_null($paymentObjData['countryCode'])) {
-            $afterpayMerchantAccount->setCountryCode($paymentObjData['countryCode']);
-        }
-
-        $afterpayPaymentObj
-            ->setMerchant(array(
-                'redirectConfirmUrl' => $paymentObjData['okUrl'],
-                'redirectCancelUrl' => $paymentObjData['cancelUrl']
-            ))
-            ->setMerchantAccount($afterpayMerchantAccount)
-            ->setAmount(
-                Afterpay::parseAmount($paymentObjData['cart']->getOrderTotal(true, Cart::BOTH)),
-                $paymentObjData['currency']
-            )
-            ->setTaxAmount(
-                Afterpay::parseAmount(
-                    $paymentObjData['cart']->getOrderTotal(true, Cart::BOTH)
-                    -
-                    $paymentObjData['cart']->getOrderTotal(false, Cart::BOTH)
-                ),
-                $paymentObjData['currency']
-            )
-            ->setConsumer(array(
-                'phoneNumber' => $paymentObjData['billingAddress']->phone,
-                'givenNames' => $paymentObjData['customer']->firstname,
-                'surname' => $paymentObjData['customer']->lastname,
-                'email' => $paymentObjData['customer']->email
-            ))
-            ->setBilling(array(
-                'name' => $paymentObjData['billingAddress']->firstname . " " .
-                    $paymentObjData['billingAddress']->lastname,
-                'line1' => $paymentObjData['billingAddress']->address1,
-                'line2' => $paymentObjData['billingAddress']->address2,
-                'suburb' => $paymentObjData['billingAddress']->city,
-                'area1' => $paymentObjData['billingAddress']->city,
-                'state' => $paymentObjData['billingStateCode'],
-                'region' => $paymentObjData['billingStateCode'],
-                'postcode' => $paymentObjData['billingAddress']->postcode,
-                'countryCode' => $paymentObjData['billingCountryCode'],
-                'phoneNumber' => $paymentObjData['billingAddress']->phone
-            ))
-            ->setShipping(array(
-                'name' => $paymentObjData['shippingAddress']->firstname . " " .
-                    $paymentObjData['shippingAddress']->lastname,
-                'line1' => $paymentObjData['shippingAddress']->address1,
-                'line2' => $paymentObjData['shippingAddress']->address2,
-                'suburb' => $paymentObjData['shippingAddress']->city,
-                'area1' => $paymentObjData['shippingAddress']->city,
-                'state' => $paymentObjData['shippingStateCode'],
-                'region' => $paymentObjData['shippingStateCode'],
-                'postcode' => $paymentObjData['shippingAddress']->postcode,
-                'countryCode' => $paymentObjData['shippingCountryCode'],
-                'phoneNumber' => $paymentObjData['shippingAddress']->phone
-            ))
-            ->setShippingAmount(
-                Afterpay::parseAmount($paymentObjData['cart']->getTotalShippingCost()),
-                $paymentObjData['currency']
-            )
-            ->setCourier(array(
-                'shippedAt' => '',
-                'name' => $paymentObjData['carrier']->name,
-                'tracking' => '',
-                'priority' => 'STANDARD'
-            ));
-
-        if (!empty($paymentObjData['discountAmount'])) {
-            $afterpayPaymentObj->setDiscounts(array(
-                array(
-                    'displayName' => 'Shop discount',
-                    'amount' => array(
-                        Afterpay::parseAmount($paymentObjData['discountAmount']),
-                        $paymentObjData['currency']
-                    )
-                )
-            ));
-        }
-
-        $items = $paymentObjData['cart']->getProducts();
-        $products = array();
-        foreach ($items as $item) {
-            $products[] = array(
-                'name' => utf8_encode($item['name']),
-                'sku' => $item['reference'],
-                'quantity' => (int) $item['quantity'],
-                'price' => array(
-                    'amount' => Afterpay::parseAmount($item['price_wt']),
-                    'currency' => $paymentObjData['currency']
-                )
-            );
-        }
-        $afterpayPaymentObj->setItems($products);
-
-        $apiVersion = $this->getApiVersionPerRegion($paymentObjData['region']);
-        if ($apiVersion === 'v1') {
-            $afterpayPaymentObj = $this->addPaymentV1Options($afterpayPaymentObj, $paymentObjData);
-        } else {
-            $afterpayPaymentObj = $this->addPaymentV2Options($afterpayPaymentObj, $paymentObjData);
-        }
-
-        $header = $this->module->name . '/' . $this->module->version
-            . ' (Prestashop/' . _PS_VERSION_ . '; PHP/' . phpversion() . '; Merchant/' . $paymentObjData['publicKey']
-            . ') ' . _PS_BASE_URL_SSL_.__PS_BASE_URI__;
-        $afterpayPaymentObj->addHeader('User-Agent', $header);
-        $afterpayPaymentObj->addHeader('Country', $paymentObjData['countryCode']);
 
         $url = $paymentObjData['cancelUrl'];
+        try {
+            \Afterpay\SDK\Model::setAutomaticValidationEnabled(true);
+            $afterpayPaymentObj = new CreateCheckout();
+            $afterpayMerchantAccount = new AfterpayMerchantAccount();
+            $afterpayMerchantAccount
+                ->setMerchantId($paymentObjData['publicKey'])
+                ->setSecretKey($paymentObjData['secretKey'])
+                ->setApiEnvironment($paymentObjData['environment'])
+            ;
+            if (!is_null($paymentObjData['countryCode'])) {
+                $afterpayMerchantAccount->setCountryCode($paymentObjData['countryCode']);
+            }
+
+            $afterpayPaymentObj
+                ->setMerchant(array(
+                    'redirectConfirmUrl' => $paymentObjData['okUrl'],
+                    'redirectCancelUrl' => $paymentObjData['cancelUrl']
+                ))
+                ->setMerchantAccount($afterpayMerchantAccount)
+                ->setAmount(
+                    Afterpay::parseAmount($paymentObjData['cart']->getOrderTotal(true, Cart::BOTH)),
+                    $paymentObjData['currency']
+                )
+                ->setTaxAmount(
+                    Afterpay::parseAmount(
+                        $paymentObjData['cart']->getOrderTotal(true, Cart::BOTH)
+                        -
+                        $paymentObjData['cart']->getOrderTotal(false, Cart::BOTH)
+                    ),
+                    $paymentObjData['currency']
+                )
+                ->setConsumer(array(
+                    'phoneNumber' => $paymentObjData['billingAddress']->phone,
+                    'givenNames' => $paymentObjData['customer']->firstname,
+                    'surname' => $paymentObjData['customer']->lastname,
+                    'email' => $paymentObjData['customer']->email
+                ))
+                ->setBilling(array(
+                    'name' => $paymentObjData['billingAddress']->firstname . " " .
+                        $paymentObjData['billingAddress']->lastname,
+                    'line1' => $paymentObjData['billingAddress']->address1,
+                    'line2' => $paymentObjData['billingAddress']->address2,
+                    'suburb' => $paymentObjData['billingAddress']->city,
+                    'area1' => $paymentObjData['billingAddress']->city,
+                    'state' => $paymentObjData['billingStateCode'],
+                    'region' => $paymentObjData['billingStateCode'],
+                    'postcode' => $paymentObjData['billingAddress']->postcode,
+                    'countryCode' => $paymentObjData['billingCountryCode'],
+                    'phoneNumber' => $paymentObjData['billingAddress']->phone
+                ))
+                ->setShipping(array(
+                    'name' => $paymentObjData['shippingAddress']->firstname . " " .
+                        $paymentObjData['shippingAddress']->lastname,
+                    'line1' => $paymentObjData['shippingAddress']->address1,
+                    'line2' => $paymentObjData['shippingAddress']->address2,
+                    'suburb' => $paymentObjData['shippingAddress']->city,
+                    'area1' => $paymentObjData['shippingAddress']->city,
+                    'state' => $paymentObjData['shippingStateCode'],
+                    'region' => $paymentObjData['shippingStateCode'],
+                    'postcode' => $paymentObjData['shippingAddress']->postcode,
+                    'countryCode' => $paymentObjData['shippingCountryCode'],
+                    'phoneNumber' => $paymentObjData['shippingAddress']->phone
+                ))
+                ->setShippingAmount(
+                    Afterpay::parseAmount($paymentObjData['cart']->getTotalShippingCost()),
+                    $paymentObjData['currency']
+                )
+                ->setCourier(array(
+                    'shippedAt' => '',
+                    'name' => $paymentObjData['carrier']->name . '',
+                    'tracking' => '',
+                    'priority' => 'STANDARD'
+                ));
+
+            if (!empty($paymentObjData['discountAmount'])) {
+                $afterpayPaymentObj->setDiscounts(array(
+                    array(
+                        'displayName' => 'Shop discount',
+                        'amount' => array(
+                            Afterpay::parseAmount($paymentObjData['discountAmount']),
+                            $paymentObjData['currency']
+                        )
+                    )
+                ));
+            }
+
+            $items = $paymentObjData['cart']->getProducts();
+            $products = array();
+            foreach ($items as $item) {
+                $products[] = array(
+                    'name' => utf8_encode($item['name']),
+                    'sku' => $item['reference'],
+                    'quantity' => (int) $item['quantity'],
+                    'price' => array(
+                        'amount' => Afterpay::parseAmount($item['price_wt']),
+                        'currency' => $paymentObjData['currency']
+                    )
+                );
+            }
+            $afterpayPaymentObj->setItems($products);
+
+            $apiVersion = $this->getApiVersionPerRegion($paymentObjData['region']);
+            if ($apiVersion === 'v1') {
+                $afterpayPaymentObj = $this->addPaymentV1Options($afterpayPaymentObj, $paymentObjData);
+            } else {
+                $afterpayPaymentObj = $this->addPaymentV2Options($afterpayPaymentObj, $paymentObjData);
+            }
+
+            $header = $this->module->name . '/' . $this->module->version
+                . ' (Prestashop/' . _PS_VERSION_ . '; PHP/' . phpversion() . '; Merchant/' . $paymentObjData['publicKey']
+                . ') ' . _PS_BASE_URL_SSL_.__PS_BASE_URI__;
+            $afterpayPaymentObj->addHeader('User-Agent', $header);
+            $afterpayPaymentObj->addHeader('Country', $paymentObjData['countryCode']);
+        } catch (\Exception $exception) {
+            $this->saveLog($exception->getMessage(), 3);
+            return Tools::redirect($url);
+        }
+
         if (!$afterpayPaymentObj->isValid()) {
             $this->saveLog($afterpayPaymentObj->getValidationErrors(), 2);
             return Tools::redirect($url);

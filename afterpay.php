@@ -329,10 +329,7 @@ class Afterpay extends PaymentModule
         $this->context->smarty->assign($this->getButtonTemplateVars($cart));
         $templateConfigs = array();
         if ($this->isPaymentMethodAvailable()) {
-            $amountWithCurrency = Afterpay::parseAmount($totalAmount/4) . $this->currencySymbol;
-            if ($this->currency === 'GBP') {
-                $amountWithCurrency = $this->currencySymbol. Afterpay::parseAmount($totalAmount/4);
-            }
+            $amountWithCurrency = $this->currencySymbol. Afterpay::parseAmount($totalAmount/4);
             $checkoutText = $this->l('Or 4 interest-free payments of') . ' ' . $amountWithCurrency . ' ';
             $checkoutText .= $this->l('with');
             if ($this->isOPC()) {
@@ -812,10 +809,7 @@ class Afterpay extends PaymentModule
         $this->context->smarty->assign($this->getButtonTemplateVars($cart));
         $templateConfigs = array();
         if ($this->isPaymentMethodAvailable()) {
-            $amountWithCurrency = Afterpay::parseAmount($totalAmount / 4) . $this->currencySymbol;
-            if ($this->currency === 'GBP') {
-                $amountWithCurrency = $this->currencySymbol . Afterpay::parseAmount($totalAmount / 4);
-            }
+            $amountWithCurrency = $this->currencySymbol . Afterpay::parseAmount($totalAmount / 4);
             $checkoutText = $this->l('Or 4 interest-free payments of') . ' ' . $amountWithCurrency . ' ';
             $checkoutText .= $this->l('with');
             if ($this->isOPC()) {
