@@ -159,16 +159,10 @@
                     <div class="afterpay-header-img">
                         <img src="{$LOGO_BADGE|escape:'htmlall':'UTF-8'}">
                     </div>
-                    <div class="afterpay-header-text1">
-                        {$MORE_HEADER1|escape:'htmlall':'UTF-8'}
-                    </div>
-                    <div class="afterpay-header-text2">
-                        {$MORE_HEADER2|escape:'htmlall':'UTF-8'}
-                    </div>
                 </div>
                 <div class="afterpay-more-info-text">
                     <div class="afterpay-more-info">
-                        {$MOREINFO_ONE|escape:'htmlall':'UTF-8'}
+                        {$DESCRIPTION|escape:'htmlall':'UTF-8'}
                     </div>
                     <afterpay-placement
                             data-type="price-table"
@@ -180,6 +174,12 @@
                     <a class="afterpay-terms" href="{$TERMS_AND_CONDITIONS_LINK|escape:'htmlall':'UTF-8'}" TARGET="_blank">
                         {$TERMS_AND_CONDITIONS|escape:'htmlall':'UTF-8'}
                     </a>
+                    {if $MORE_INFO_TEXT !== '_hide_'}
+                        &nbsp;&nbsp;|&nbsp;&nbsp;
+                        <a href="javascript:void(0)" onclick="Afterpay.launchModal('{$ISO_COUNTRY_CODE|escape:'javascript':'UTF-8'}');">
+                            {$MORE_INFO_TEXT|escape:'htmlall':'UTF-8'}
+                        </a>
+                    {/if}
                 </div>
             </div>
         </div>

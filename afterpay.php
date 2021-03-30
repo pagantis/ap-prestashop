@@ -290,16 +290,21 @@ class Afterpay extends PaymentModule
      */
     public function hookHeader()
     {
-        echo '<!-- APVersion:'. $this->version.
-            ' PS:'._PS_VERSION_.
-            ' Env:'.Configuration::get('CLEARPAY_ENVIRONMENT').
-            ' MId:'.Configuration::get('CLEARPAY_PUBLIC_KEY').
-            ' Region:'.Configuration::get('CLEARPAY_REGION').
-            ' Lang:'.$this->getCurrentLanguage().
-            ' Enabled:'.Configuration::get('CLEARPAY_IS_ENABLED').
-            ' A_Countries:'.Configuration::get('CLEARPAY_ALLOWED_COUNTRIES').
-            ' R_Cat:'.(string)Configuration::get('CLEARPAY_RESTRICTED_CATEGORIES').
-            ' -->';
+        if (
+            Context::getContext()->controller->php_self === 'product' ||
+            Context::getContext()->controller->php_self === 'order'
+        ) {
+            echo '<!-- CPVersion:'. $this->version.
+                ' PS:'._PS_VERSION_.
+                ' Env:'.Configuration::get('CLEARPAY_ENVIRONMENT').
+                ' MId:'.Configuration::get('CLEARPAY_PUBLIC_KEY').
+                ' Region:'.Configuration::get('CLEARPAY_REGION').
+                ' Lang:'.$this->getCurrentLanguage().
+                ' Enabled:'.Configuration::get('CLEARPAY_IS_ENABLED').
+                ' A_Countries:'.Configuration::get('CLEARPAY_ALLOWED_COUNTRIES').
+                ' R_Cat:'.(string)Configuration::get('CLEARPAY_RESTRICTED_CATEGORIES').
+                ' -->';
+        }
         if (_PS_VERSION_ >= "1.7") {
             $this->context->controller->registerJavascript(
                 sha1(mt_rand(1, 90000)),
@@ -353,20 +358,19 @@ class Afterpay extends PaymentModule
                     Tools::strtoupper(Tools::substr($templateConfigs['ISO_COUNTRY_CODE'], 2, 4));
             }
             $templateConfigs['CURRENCY'] = $this->currency;
-            $templateConfigs['MORE_HEADER1'] = '';
-            $templateConfigs['MORE_HEADER2'] = '';
             $templateConfigs['TOTAL_AMOUNT'] = $totalAmount;
-            $moreInfo = $this->l('You will be redirected to Afterpay website to fill out your payment information.');
-            $moreInfo .= ' ' .$this->l('You will be redirected to our site to complete your order.');
-            $templateConfigs['MOREINFO_ONE'] = $moreInfo;
+            $description = $this->l('You will be redirected to Clearpay to fill out your payment information.');
+            $templateConfigs['DESCRIPTION'] = $description;
             $templateConfigs['TERMS_AND_CONDITIONS'] = $this->l('Terms and conditions');
+            $termsLink = $this->l('https://www.clearpay.co.uk/en-GB/terms-of-service');
             $termsLink = $this->termsLinkPerRegion[Configuration::get('AFTERPAY_REGION')];
             $templateConfigs['TERMS_AND_CONDITIONS_LINK'] = $termsLink;
-            $templateConfigs['LOGO_TEXT'] = $this->l("Afterpay");
+            $templateConfigs['MORE_INFO_TEXT'] = '_hide_';
+            $templateConfigs['LOGO_TEXT'] = $this->l("Clearpay");
             $templateConfigs['ICON'] = 'https://static.afterpay.com/app/icon-128x128.png';
-            $templateConfigs['LOGO_BADGE'] = 'https://static.afterpay.com/email/logo-afterpay-colour.png';
+            $templateConfigs['LOGO_BADGE'] = 'https://static.afterpay.com/email/logo-clearpay-colour.png';
             $templateConfigs['LOGO_OPC'] = Media::getMediaPath(_PS_MODULE_DIR_.$this->name.'/views/img/logo_opc.png');
-            $templateConfigs['PAYMENT_URL'] = $link->getModuleLink('afterpay', 'payment');
+            $templateConfigs['PAYMENT_URL'] = $link->getModuleLink('clearpay', 'payment');
             $templateConfigs['PS_VERSION'] = str_replace('.', '-', Tools::substr(_PS_VERSION_, 0, 3));
 
             $this->context->smarty->assign($templateConfigs);
@@ -817,20 +821,21 @@ class Afterpay extends PaymentModule
                     . $this->l(' with Afterpay');
             }
             $templateConfigs['TITLE'] = $checkoutText;
-            $templateConfigs['MORE_HEADER'] = '';
+            $templateConfigs['CURRENCY'] = $this->currency;
+            $templateConfigs['MORE_HEADER'] = $this->l('Instant approval decision - 4 interest-free payments of')
+                . ' ' . $amountWithCurrency;
             $templateConfigs['TOTAL_AMOUNT'] = $totalAmount;
-            $templateConfigs['MOREINFO_ONE'] = $this->l(
-                'You will be redirected to Afterpay website to fill out your 
-                payment information. You will be redirected to our site to complete your order'
-            );
+            $description = $this->l('You will be redirected to Clearpay to fill out your payment information.');
+            $templateConfigs['DESCRIPTION'] = $description;
             $templateConfigs['TERMS_AND_CONDITIONS'] = $this->l('Terms and conditions');
             $termsLink = $this->termsLinkPerRegion[Configuration::get('AFTERPAY_REGION')];
             $templateConfigs['TERMS_AND_CONDITIONS_LINK'] = $termsLink;
-            $templateConfigs['LOGO_TEXT'] = $this->l("Afterpay");
+            $templateConfigs['MORE_INFO_TEXT'] = '_hide_';
+            $templateConfigs['LOGO_TEXT'] = $this->l("Clearpay");
             $templateConfigs['ICON'] = 'https://static.afterpay.com/app/icon-128x128.png';
-            $templateConfigs['LOGO_BADGE'] = 'https://static.afterpay.com/email/logo-afterpay-colour.png';
+            $templateConfigs['LOGO_BADGE'] = 'https://static.afterpay.com/email/logo-clearpay-colour.png';
             $templateConfigs['LOGO_OPC'] = Media::getMediaPath(_PS_MODULE_DIR_.$this->name.'/views/img/logo_opc.png');
-            $templateConfigs['PAYMENT_URL'] = $link->getModuleLink('afterpay', 'payment');
+            $templateConfigs['PAYMENT_URL'] = $link->getModuleLink('clearpay', 'payment');
             $templateConfigs['PS_VERSION'] = str_replace('.', '-', Tools::substr(_PS_VERSION_, 0, 3));
 
             $this->context->smarty->assign($templateConfigs);
