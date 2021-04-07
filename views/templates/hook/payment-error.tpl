@@ -37,7 +37,7 @@
     <br><br>
     {$ERROR_TEXT2|escape:'htmlall':'UTF-8'}
     <br>
-    <a href="{l s='https://developers.afterpay.co.uk/afterpay-online/docs/customer-support' mod='afterpay'}">
-        {l s='https://developers.afterpay.co.uk/afterpay-online/docs/customer-support' mod='afterpay'}
+    <a href="{l s='https://developers.afterpay.com/afterpay-online/docs/customer-support' mod='afterpay'}">
+        {l s='https://developers.afterpay.com/afterpay-online/docs/customer-support' mod='afterpay'}
     </a>
 </div>
