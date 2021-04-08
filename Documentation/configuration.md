@@ -23,4 +23,4 @@ In the Pagantis admin panel, we can set the following options:
 | Secret Key(*) |  String. 
 | Simulator is enabled |  * Yes => Display the installments simulator  (Default) <br/> * No => Do not display the simulator
 
-:information_source: - Your keys are located on your [Pagantis profile](https://merchant.afterpay.com/)
+:information_source: - Your keys are located on your [Pagantis profile](https://developers.afterpay.com/)
