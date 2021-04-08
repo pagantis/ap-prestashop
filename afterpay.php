@@ -115,7 +115,7 @@ class Afterpay extends PaymentModule
         $this->author = $this->l('Afterpay');
         $this->currencies = true;
         $this->currencies_mode = 'checkbox';
-        $this->module_key = '1da91d21c9c3427efd7530c2be29182d';
+        $this->module_key = '6fe834f17783ebe4405a9844f0fb9096';
         $this->ps_versions_compliancy = array('min' => '1.6', 'max' => _PS_VERSION_);
         $this->displayName = $this->l('Afterpay Payment Gateway');
         $this->description = $this->l('Buy now, pay later. Always interest-free. Reach new customers, ');
