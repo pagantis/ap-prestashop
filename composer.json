@@ -1,0 +1,25 @@
+{
+    "name": "afterpay/prestashop",
+    "description": "Prestashop module to add Afterpay",
+    "license": "proprietary",
+    "type": "module",
+    "authors": [
+        {
+            "name": "Afterpay",
+            "email": "integrations@afterpay.com"
+        }
+    ],
+    "require": {
+        "afterpay-global/afterpay-sdk-php": "dev-downgrade-to-api-v1"
+    },
+    "require-dev": {
+        "pagantis/autoindex": "^1.0",
+        "pagantis/selenium-form-utils":"dev-afterpay"
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Test\\Common\\": "test/common",
+            "Test\\": "test/"
+        }
+    }
+}
