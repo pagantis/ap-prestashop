@@ -43,6 +43,9 @@ class Afterpay extends PaymentModule
     /** @var string $language */
     public $language;
 
+    /** @var string $description */
+    public $description;
+
     /**
      * Default available countries for the different operational regions
      *
@@ -115,9 +118,9 @@ class Afterpay extends PaymentModule
         $this->module_key = '1da91d21c9c3427efd7530c2be29182d';
         $this->ps_versions_compliancy = array('min' => '1.6', 'max' => _PS_VERSION_);
         $this->displayName = $this->l('Afterpay Payment Gateway');
-        $this->description = $this->l('Buy now, pay later. Always interest-free. Reach new customers, ') .
-            $this->l('increase your conversion rate, recurrency and average order value ofering ') .
-            $this->l('interest-free installments in your eCommerce.');
+        $this->description = $this->l('Buy now, pay later. Always interest-free. Reach new customers, ');
+        $this->description .= $this->l('increase your conversion rate, recurrency and average order value ofering ');
+        $this->description .= $this->l('interest-free installments in your eCommerce.');
         $this->currency = 'EUR';
         $this->currencySymbol = '€';
         $context = Context::getContext();
@@ -290,8 +293,7 @@ class Afterpay extends PaymentModule
      */
     public function hookHeader()
     {
-        if (
-            Context::getContext()->controller->php_self === 'product' ||
+        if (Context::getContext()->controller->php_self === 'product' ||
             Context::getContext()->controller->php_self === 'order'
         ) {
             echo '<!-- CPVersion:'. $this->version.
@@ -373,7 +375,7 @@ class Afterpay extends PaymentModule
             $templateConfigs['PAYMENT_URL'] = $link->getModuleLink('clearpay', 'payment');
             $mobileViewLayout = Tools::strtolower('four-by-one');
             $isMobileLayout = $this->context->isMobile();
-            if ($isMobileLayout){
+            if ($isMobileLayout) {
                 $mobileViewLayout = Tools::strtolower('two-by-two');
             }
             $templateConfigs['AP_MOBILE_LAYOUT'] = $mobileViewLayout;
@@ -845,7 +847,7 @@ class Afterpay extends PaymentModule
             $templateConfigs['PAYMENT_URL'] = $link->getModuleLink('clearpay', 'payment');
             $mobileViewLayout = Tools::strtolower('four-by-one');
             $isMobileLayout = $this->context->isMobile();
-            if ($isMobileLayout){
+            if ($isMobileLayout) {
                 $mobileViewLayout = Tools::strtolower('two-by-two');
             }
             $templateConfigs['AP_MOBILE_LAYOUT'] = $mobileViewLayout;
