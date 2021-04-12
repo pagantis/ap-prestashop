@@ -159,8 +159,6 @@ class AfterpayofficialNotifyModuleFrontController extends AbstractController
             $this->checkMerchantOrderStatus();
 
         } catch (\Exception $exception) {
-            var_dump($exception->getMessage());
-            die;
             return $this->cancelProcess($exception->getMessage());
         }
         // Process Afterpay Order

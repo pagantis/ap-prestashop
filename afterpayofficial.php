@@ -114,7 +114,7 @@ class Afterpayofficial extends PaymentModule
      */
     public function __construct()
     {
-        $this->name = 'afterpayofficial';
+        $this->name = self::MODULE_NAME;
         $this->tab = 'payments_gateways';
         $this->version = '1.1.0';
         $this->author = $this->l('Afterpay');
