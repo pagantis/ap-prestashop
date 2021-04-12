@@ -157,10 +157,10 @@ class AfterpayofficialNotifyModuleFrontController extends AbstractController
             $this->getAfterpayOrder();
             $this->validateAmount();
             $this->checkMerchantOrderStatus();
-
         } catch (\Exception $exception) {
             return $this->cancelProcess($exception->getMessage());
         }
+
         // Process Afterpay Order
         try {
             $this->captureAfterpayPayment();

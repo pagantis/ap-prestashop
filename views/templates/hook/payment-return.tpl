@@ -7,7 +7,7 @@
  *}
 <p>
 <div class="alert-success alert">
-    {l s='Great, you have completed your purchase, you can continue buying or go back to your orders.' mod='afterpay'}
+    {l s='Great, you have completed your purchase, you can continue buying or go back to your orders.' mod='afterpayofficial'}
     <br/><br/>
 </div>
 </p>

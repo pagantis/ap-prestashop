@@ -3,7 +3,7 @@ module.exports = function(grunt) {
         shell: {
             generateZip: {
                 command:
-                    'cp afterpay.zip afterpay-$(git rev-parse --abbrev-ref HEAD).zip \n'
+                    'cp afterpayofficial.zip afterpayofficial-$(git rev-parse --abbrev-ref HEAD).zip \n'
             },
             autoindex: {
                 command:
@@ -46,28 +46,28 @@ module.exports = function(grunt) {
         compress: {
             main: {
                 options: {
-                    archive: 'afterpay.zip'
+                    archive: 'afterpayofficial.zip'
                 },
                 files: [
-                    {src: ['controllers/**'], dest: 'afterpay/', filter: 'isFile'},
-                    {src: ['classes/**'], dest: 'afterpay/', filter: 'isFile'},
-                    {src: ['docs/**'], dest: 'afterpay/', filter: 'isFile'},
-                    {src: ['override/**'], dest: 'afterpay/', filter: 'isFile'},
-                    {src: ['logs/**'], dest: 'afterpay/', filter: 'isFile'},
-                    {src: ['vendor/**'], dest: 'afterpay/', filter: 'isFile'},
-                    {src: ['translations/**'], dest: 'afterpay/', filter: 'isFile'},
-                    {src: ['upgrade/**'], dest: 'afterpay/', filter: 'isFile'},
-                    {src: ['optionaloverride/**'], dest: 'afterpay/', filter: 'isFile'},
-                    {src: ['oldoverride/**'], dest: 'afterpay/', filter: 'isFile'},
-                    {src: ['sql/**'], dest: 'afterpay/', filter: 'isFile'},
-                    {src: ['lib/**'], dest: 'afterpay/', filter: 'isFile'},
-                    {src: ['defaultoverride/**'], dest: 'afterpay/', filter: 'isFile'},
-                    {src: ['views/**'], dest: 'afterpay/', filter: 'isFile'},
-                    {src: '.htaccess', dest: 'afterpay/'},
-                    {src: 'index.php', dest: 'afterpay/'},
-                    {src: 'afterpay.php', dest: 'afterpay/'},
-                    {src: 'logo.png', dest: 'afterpay/'},
-                    {src: 'README.md', dest: 'afterpay/'}
+                    {src: ['controllers/**'], dest: 'afterpayofficial/', filter: 'isFile'},
+                    {src: ['classes/**'], dest: 'afterpayofficial/', filter: 'isFile'},
+                    {src: ['docs/**'], dest: 'afterpayofficial/', filter: 'isFile'},
+                    {src: ['override/**'], dest: 'afterpayofficial/', filter: 'isFile'},
+                    {src: ['logs/**'], dest: 'afterpayofficial/', filter: 'isFile'},
+                    {src: ['vendor/**'], dest: 'afterpayofficial/', filter: 'isFile'},
+                    {src: ['translations/**'], dest: 'afterpayofficial/', filter: 'isFile'},
+                    {src: ['upgrade/**'], dest: 'afterpayofficial/', filter: 'isFile'},
+                    {src: ['optionaloverride/**'], dest: 'afterpayofficial/', filter: 'isFile'},
+                    {src: ['oldoverride/**'], dest: 'afterpayofficial/', filter: 'isFile'},
+                    {src: ['sql/**'], dest: 'afterpayofficial/', filter: 'isFile'},
+                    {src: ['lib/**'], dest: 'afterpayofficial/', filter: 'isFile'},
+                    {src: ['defaultoverride/**'], dest: 'afterpayofficial/', filter: 'isFile'},
+                    {src: ['views/**'], dest: 'afterpayofficial/', filter: 'isFile'},
+                    {src: '.htaccess', dest: 'afterpayofficial/'},
+                    {src: 'index.php', dest: 'afterpayofficial/'},
+                    {src: 'afterpayofficial.php', dest: 'afterpayofficial/'},
+                    {src: 'logo.png', dest: 'afterpayofficial/'},
+                    {src: 'README.md', dest: 'afterpayofficial/'}
                 ]
             }
         }

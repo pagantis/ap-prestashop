@@ -28,16 +28,16 @@
     }
 </style>
 <div class="afterpay-declined-header ps-version-{$PS_VERSION|escape:'htmlall':'UTF-8'}">
-    {l s='PAYMENT ERROR' mod='afterpay'}
+    {l s='PAYMENT ERROR' mod='afterpayofficial'}
 </div>
 <div class="afterpay-more-info-text ps-version-{$PS_VERSION|escape:'htmlall':'UTF-8'}">
-    {l s='We are sorry to inform you that an error ocurred while processing your payment.' mod='afterpay'}
+    {l s='We are sorry to inform you that an error ocurred while processing your payment.' mod='afterpayofficial'}
     <br><br>
     {$ERROR_TEXT1|escape:'htmlall':'UTF-8'}
     <br><br>
     {$ERROR_TEXT2|escape:'htmlall':'UTF-8'}
     <br>
-    <a href="{l s='https://developers.afterpay.com/afterpay-online/docs/customer-support' mod='afterpay'}">
-        {l s='https://developers.afterpay.com/afterpay-online/docs/customer-support' mod='afterpay'}
+    <a href="{l s='https://developers.afterpay.com/afterpay-online/docs/customer-support' mod='afterpayofficial'}">
+        {l s='https://developers.afterpay.com/afterpay-online/docs/customer-support' mod='afterpayofficial'}
     </a>
 </div>
