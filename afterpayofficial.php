@@ -114,7 +114,7 @@ class Afterpayofficial extends PaymentModule
      */
     public function __construct()
     {
-        $this->name = self::MODULE_NAME;
+        $this->name = 'afterpayofficial';
         $this->tab = 'payments_gateways';
         $this->version = '1.1.0';
         $this->author = $this->l('Afterpay');
@@ -1144,7 +1144,7 @@ class Afterpayofficial extends PaymentModule
             if ($afterpayRefund->send()) {
                 if ($afterpayRefund->getResponse()->isSuccessful()) {
                     PrestaShopLogger::addLog(
-                        $this->l("Afterpay Full Refund done: ") . Afterpayofficial::parseAmount($order->total_paid_real),
+                        $this->l("Afterpay FullRefund done: ") . Afterpayofficial::parseAmount($order->total_paid_real),
                         1,
                         null,
                         "Afterpay",

@@ -28,19 +28,19 @@
     }
 </style>
 <div class="afterpay-declined-header ps-version-{$PS_VERSION|escape:'htmlall':'UTF-8'}">
-    {l s='PAYMENT DECLINED' mod='afterpay'}
+    {l s='PAYMENT DECLINED' mod='afterpayofficial'}
 </div>
 <div class="afterpay-more-info-text ps-version-{$PS_VERSION|escape:'htmlall':'UTF-8'}">
     {$DECLINED_TEXT1|escape:'htmlall':'UTF-8'}
     <br><br>
     {$ERROR_TEXT2|escape:'htmlall':'UTF-8'}
     <br>
-    <a href="{l s='https://developers.afterpay.com/afterpay-online/docs/customer-support' mod='afterpay'}">
-        {l s='https://developers.afterpay.com/afterpay-online/docs/customer-support' mod='afterpay'}
+    <a href="{l s='https://developers.afterpay.com/afterpay-online/docs/customer-support' mod='afterpayofficial'}">
+        {l s='https://developers.afterpay.com/afterpay-online/docs/customer-support' mod='afterpayofficial'}
     </a>
     {if $REFERENCE_ID != ''}
     <br><br>
-    {l s='For reference, the Order ID for this transaction is:' mod='afterpay'}
+    {l s='For reference, the Order ID for this transaction is:' mod='afterpayofficial'}
     <strong>
         {$REFERENCE_ID|escape:'htmlall':'UTF-8'}
     </strong>
