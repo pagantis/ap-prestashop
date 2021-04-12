@@ -7,7 +7,7 @@
  * @license   proprietary
  */
 
-define('_PS_AFTERPAY_DIR', _PS_MODULE_DIR_. 'afterpay');
+define('_PS_AFTERPAY_DIR', _PS_MODULE_DIR_. 'afterpayofficial');
 
 require _PS_AFTERPAY_DIR.'/vendor/autoload.php';
 
@@ -16,10 +16,15 @@ if (!defined('_PS_VERSION_')) {
 }
 
 /**
- * Class Afterpay
+ * Class Afterpayofficial
  */
-class Afterpay extends PaymentModule
+class Afterpayofficial extends PaymentModule
 {
+    /**
+     * Available currency
+     */
+    const MODULE_NAME = 'afterpayofficial';
+
     /**
      * Available currency
      */
@@ -109,7 +114,7 @@ class Afterpay extends PaymentModule
      */
     public function __construct()
     {
-        $this->name = 'afterpay';
+        $this->name = self::MODULE_NAME;
         $this->tab = 'payments_gateways';
         $this->version = '1.1.0';
         $this->author = $this->l('Afterpay');
@@ -328,7 +333,7 @@ class Afterpay extends PaymentModule
         $cart = $this->context->cart;
         $this->shippingAddress = new Address($cart->id_address_delivery);
         $this->billingAddress = new Address($cart->id_address_invoice);
-        $totalAmount = Afterpay::parseAmount($cart->getOrderTotal(true, Cart::BOTH));
+        $totalAmount = Afterpayofficial::parseAmount($cart->getOrderTotal(true, Cart::BOTH));
 
         $link = $this->context->link;
 
@@ -336,7 +341,7 @@ class Afterpay extends PaymentModule
         $this->context->smarty->assign($this->getButtonTemplateVars($cart));
         $templateConfigs = array();
         if ($this->isPaymentMethodAvailable()) {
-            $amountWithCurrency = $this->currencySymbol. Afterpay::parseAmount($totalAmount/4);
+            $amountWithCurrency = $this->currencySymbol. Afterpayofficial::parseAmount($totalAmount/4);
             $checkoutText = $this->l('Or 4 interest-free payments of') . ' ' . $amountWithCurrency . ' ';
             $checkoutText .= $this->l('with');
             if ($this->isOPC()) {
@@ -372,7 +377,7 @@ class Afterpay extends PaymentModule
             $templateConfigs['ICON'] = 'https://static.afterpay.com/app/icon-128x128.png';
             $templateConfigs['LOGO_BADGE'] = 'https://static.afterpay.com/email/logo-afterpay-colour.png';
             $templateConfigs['LOGO_OPC'] = Media::getMediaPath(_PS_MODULE_DIR_.$this->name.'/views/img/logo_opc.png');
-            $templateConfigs['PAYMENT_URL'] = $link->getModuleLink('clearpay', 'payment');
+            $templateConfigs['PAYMENT_URL'] = $link->getModuleLink($this->name, 'payment');
             $mobileViewLayout = Tools::strtolower('four-by-one');
             $isMobileLayout = $this->context->isMobile();
             if ($isMobileLayout) {
@@ -385,18 +390,20 @@ class Afterpay extends PaymentModule
             $this->context->smarty->assign($templateConfigs);
 
             $paymentOption = new PrestaShop\PrestaShop\Core\Payment\PaymentOption();
-            $uri = $link->getModuleLink('afterpay', 'payment');
+            $uri = $link->getModuleLink($this->name, 'payment');
             $paymentOption
                 ->setCallToActionText($templateConfigs['TITLE'])
                 ->setAction($uri)
                 ->setModuleName(__CLASS__);
             if ($this->isOPC()) {
+                $moduleUri = 'module:'.$this->name.'/views/templates/hook/onepagecheckout.tpl';
                 $paymentOption
-                    ->setAdditionalInformation($this->fetch('module:afterpay/views/templates/hook/onepagecheckout.tpl'))
+                    ->setAdditionalInformation($this->fetch($moduleUri))
                     ->setLogo($templateConfigs['LOGO_OPC']);
             } else {
+                $moduleUri = 'module:'.$this->name.'/views/templates/hook/checkout.tpl';
                 $paymentOption
-                    ->setAdditionalInformation($this->fetch('module:afterpay/views/templates/hook/checkout.tpl'))
+                    ->setAdditionalInformation($this->fetch($moduleUri))
                     ->setLogo($templateConfigs['LOGO_BADGE']);
             }
             $return[] = $paymentOption;
@@ -814,7 +821,7 @@ class Afterpay extends PaymentModule
         $cart = $this->context->cart;
         $this->shippingAddress = new Address($cart->id_address_delivery);
         $this->billingAddress = new Address($cart->id_address_invoice);
-        $totalAmount = Afterpay::parseAmount($cart->getOrderTotal(true, Cart::BOTH));
+        $totalAmount = Afterpayofficial::parseAmount($cart->getOrderTotal(true, Cart::BOTH));
 
         $link = $this->context->link;
 
@@ -822,7 +829,7 @@ class Afterpay extends PaymentModule
         $this->context->smarty->assign($this->getButtonTemplateVars($cart));
         $templateConfigs = array();
         if ($this->isPaymentMethodAvailable()) {
-            $amountWithCurrency = $this->currencySymbol . Afterpay::parseAmount($totalAmount / 4);
+            $amountWithCurrency = $this->currencySymbol . Afterpayofficial::parseAmount($totalAmount / 4);
             $checkoutText = $this->l('Or 4 interest-free payments of') . ' ' . $amountWithCurrency . ' ';
             $checkoutText .= $this->l('with');
             if ($this->isOPC()) {
@@ -844,7 +851,7 @@ class Afterpay extends PaymentModule
             $templateConfigs['ICON'] = 'https://static.afterpay.com/app/icon-128x128.png';
             $templateConfigs['LOGO_BADGE'] = 'https://static.afterpay.com/email/logo-afterpay-colour.png';
             $templateConfigs['LOGO_OPC'] = Media::getMediaPath(_PS_MODULE_DIR_.$this->name.'/views/img/logo_opc.png');
-            $templateConfigs['PAYMENT_URL'] = $link->getModuleLink('clearpay', 'payment');
+            $templateConfigs['PAYMENT_URL'] = $link->getModuleLink($this->name, 'payment');
             $mobileViewLayout = Tools::strtolower('four-by-one');
             $isMobileLayout = $this->context->isMobile();
             if ($isMobileLayout) {
@@ -879,8 +886,8 @@ class Afterpay extends PaymentModule
     {
         $templateConfigs = array();
         if ($templateName === 'cart.tpl') {
-            $amount = Afterpay::parseAmount($this->context->cart->getOrderTotal());
-            $templateConfigs['AMOUNT'] =  Afterpay::parseAmount($this->context->cart->getOrderTotal()/4);
+            $amount = Afterpayofficial::parseAmount($this->context->cart->getOrderTotal());
+            $templateConfigs['AMOUNT'] =  Afterpayofficial::parseAmount($this->context->cart->getOrderTotal()/4);
             $templateConfigs['PRICE_TEXT'] = $this->l('4 interest-free payments of');
             $templateConfigs['MORE_INFO'] = $this->l('FIND OUT MORE');
             $desc1 = $this->l('Buy now. Pay later. No interest.');
@@ -1128,7 +1135,7 @@ class Afterpay extends PaymentModule
             $afterpayRefund->setOrderId($transactionId);
             $afterpayRefund->setRequestId(Tools::strtoupper(md5(uniqid(rand(), true))));
             $afterpayRefund->setAmount(
-                Afterpay::parseAmount($order->total_paid_real),
+                Afterpayofficial::parseAmount($order->total_paid_real),
                 $currencyCode
             );
             $afterpayRefund->setMerchantReference($order->id);
@@ -1137,7 +1144,7 @@ class Afterpay extends PaymentModule
             if ($afterpayRefund->send()) {
                 if ($afterpayRefund->getResponse()->isSuccessful()) {
                     PrestaShopLogger::addLog(
-                        $this->l("Afterpay Full Refund done: ") . Afterpay::parseAmount($order->total_paid_real),
+                        $this->l("Afterpay Full Refund done: ") . Afterpayofficial::parseAmount($order->total_paid_real),
                         1,
                         null,
                         "Afterpay",
@@ -1182,7 +1189,7 @@ class Afterpay extends PaymentModule
         foreach ($refundProductsList as $item) {
             $refundTotalAmount +=  $item["amount"];
         }
-        $refundTotalAmount = Afterpay::parseAmount($refundTotalAmount);
+        $refundTotalAmount = Afterpayofficial::parseAmount($refundTotalAmount);
 
         $afterpayRefund->setOrderId($transactionId);
         $afterpayRefund->setRequestId(Tools::strtoupper(md5(uniqid(rand(), true))));

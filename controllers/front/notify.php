@@ -14,9 +14,9 @@ use Afterpay\SDK\HTTP\Request\ImmediatePaymentCapture as AfterpayImmediatePaymen
 use Afterpay\SDK\MerchantAccount as AfterpayMerchant;
 
 /**
- * Class AfterpayNotifyModuleFrontController
+ * Class AfterpayofficialNotifyModuleFrontController
  */
-class AfterpayNotifyModuleFrontController extends AbstractController
+class AfterpayofficialNotifyModuleFrontController extends AbstractController
 {
     /** Product Name */
     const PRODUCT_NAME = "Afterpay";
@@ -157,6 +157,7 @@ class AfterpayNotifyModuleFrontController extends AbstractController
             $this->getAfterpayOrder();
             $this->validateAmount();
             $this->checkMerchantOrderStatus();
+
         } catch (\Exception $exception) {
             return $this->cancelProcess($exception->getMessage());
         }
@@ -225,7 +226,6 @@ class AfterpayNotifyModuleFrontController extends AbstractController
         $this->config['apiVersion'] = $this->getApiVersionPerRegion($this->config['region']);
 
         $this->merchantOrderId = $this->getMerchantOrderId();
-
 
         $countryCode = $this->getAfterpayOrderCountryCode();
         $this->afterpayMerchantAccount = new AfterpayMerchant();

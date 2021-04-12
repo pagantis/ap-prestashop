@@ -60,7 +60,7 @@ services:
       - DB_PREFIX=ps_
       - DB_PASSWD=password
     volumes:
-      - ./:/var/www/html/modules/afterpay
+      - ./:/var/www/html/modules/afterpayofficial
     ports:
       - "8018:80"
     extra_hosts:
@@ -83,7 +83,7 @@ services:
       - DB_PREFIX=ps_
       - DB_PASSWD=password
     volumes:
-      - ./:/var/www/html/modules/afterpay
+      - ./:/var/www/html/modules/afterpayofficial
     ports:
       - "8019:80"
     extra_hosts:

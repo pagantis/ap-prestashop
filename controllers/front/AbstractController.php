@@ -15,7 +15,7 @@ abstract class AbstractController extends ModuleFrontController
     /**
      * CODE
      */
-    const CODE = 'afterpay';
+    const CODE = 'afterpayofficial';
 
     /**
      * @var array $headers
