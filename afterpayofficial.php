@@ -301,7 +301,7 @@ class Afterpayofficial extends PaymentModule
         if (Context::getContext()->controller->php_self === 'product' ||
             Context::getContext()->controller->php_self === 'order'
         ) {
-            echo '<!-- CPVersion:'. $this->version.
+            echo '<!-- APVersion:'. $this->version.
                 ' PS:'._PS_VERSION_.
                 ' Env:'.Configuration::get('CLEARPAY_ENVIRONMENT').
                 ' MId:'.Configuration::get('CLEARPAY_PUBLIC_KEY').
