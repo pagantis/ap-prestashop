@@ -13,9 +13,9 @@ use Afterpay\SDK\MerchantAccount as AfterpayMerchantAccount;
 require_once('AbstractController.php');
 
 /**
- * Class AfterpayRedirectModuleFrontController
+ * Class AfterpayofficialPaymentModuleFrontController
  */
-class AfterpayPaymentModuleFrontController extends AbstractController
+class AfterpayofficialPaymentModuleFrontController extends AbstractController
 {
     /** @var string $language */
     protected $language;
@@ -86,7 +86,6 @@ class AfterpayPaymentModuleFrontController extends AbstractController
 
         /** @var Customer $paymentObjData['customer'] */
         $paymentObjData['customer'] = $context->customer;
-
         if (!$paymentObjData['cart']->id) {
             Tools::redirect('index.php?controller=order');
         }
@@ -110,7 +109,7 @@ class AfterpayPaymentModuleFrontController extends AbstractController
             'key' => $paymentObjData['cart']->secure_key,
         );
         $paymentObjData['okUrl'] = _PS_BASE_URL_SSL_.__PS_BASE_URI__
-            .'index.php?canonical=true&fc=module&module=afterpay&controller=notify'
+            .'index.php?canonical=true&fc=module&module='.Afterpayofficial::MODULE_NAME.'&controller=notify'
             .'&token='.$paymentObjData['urlToken'] . '&' . http_build_query($query)
         ;
 
@@ -135,11 +134,11 @@ class AfterpayPaymentModuleFrontController extends AbstractController
                 ))
                 ->setMerchantAccount($afterpayMerchantAccount)
                 ->setAmount(
-                    Afterpay::parseAmount($paymentObjData['cart']->getOrderTotal(true, Cart::BOTH)),
+                    Afterpayofficial::parseAmount($paymentObjData['cart']->getOrderTotal(true, Cart::BOTH)),
                     $paymentObjData['currency']
                 )
                 ->setTaxAmount(
-                    Afterpay::parseAmount(
+                    Afterpayofficial::parseAmount(
                         $paymentObjData['cart']->getOrderTotal(true, Cart::BOTH)
                         -
                         $paymentObjData['cart']->getOrderTotal(false, Cart::BOTH)
@@ -179,7 +178,7 @@ class AfterpayPaymentModuleFrontController extends AbstractController
                     'phoneNumber' => $paymentObjData['shippingAddress']->phone
                 ))
                 ->setShippingAmount(
-                    Afterpay::parseAmount($paymentObjData['cart']->getTotalShippingCost()),
+                    Afterpayofficial::parseAmount($paymentObjData['cart']->getTotalShippingCost()),
                     $paymentObjData['currency']
                 )
                 ->setCourier(array(
@@ -194,7 +193,7 @@ class AfterpayPaymentModuleFrontController extends AbstractController
                     array(
                         'displayName' => 'Shop discount',
                         'amount' => array(
-                            Afterpay::parseAmount($paymentObjData['discountAmount']),
+                            Afterpayofficial::parseAmount($paymentObjData['discountAmount']),
                             $paymentObjData['currency']
                         )
                     )
@@ -209,7 +208,7 @@ class AfterpayPaymentModuleFrontController extends AbstractController
                     'sku' => $item['reference'],
                     'quantity' => (int) $item['quantity'],
                     'price' => array(
-                        'amount' => Afterpay::parseAmount($item['price_wt']),
+                        'amount' => Afterpayofficial::parseAmount($item['price_wt']),
                         'currency' => $paymentObjData['currency']
                     )
                 );
@@ -291,7 +290,7 @@ class AfterpayPaymentModuleFrontController extends AbstractController
     private function addPaymentV1Options(CreateCheckout $afterpayPaymentObj, $paymentObjData)
     {
         $afterpayPaymentObj->setTotalAmount(
-            Afterpay::parseAmount($paymentObjData['cart']->getOrderTotal(true, Cart::BOTH)),
+            Afterpayofficial::parseAmount($paymentObjData['cart']->getOrderTotal(true, Cart::BOTH)),
             $paymentObjData['currency']
         );
         return $afterpayPaymentObj;
@@ -305,7 +304,7 @@ class AfterpayPaymentModuleFrontController extends AbstractController
     private function addPaymentV2Options(CreateCheckout $afterpayPaymentObj, $paymentObjData)
     {
         $afterpayPaymentObj->setAmount(
-            Afterpay::parseAmount($paymentObjData['cart']->getOrderTotal(true, Cart::BOTH)),
+            Afterpayofficial::parseAmount($paymentObjData['cart']->getOrderTotal(true, Cart::BOTH)),
             $paymentObjData['currency']
         );
         return $afterpayPaymentObj;
