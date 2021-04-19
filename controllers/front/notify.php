@@ -409,8 +409,7 @@ class AfterpayofficialNotifyModuleFrontController extends AbstractController
     private function captureAfterpayPayment()
     {
         $immediatePaymentCaptureRequest = new AfterpayImmediatePaymentCaptureRequest(array(
-            'token' => $this->afterpayOrder->token,
-            'merchantReference' => $this->config['publicKey']
+            'token' => $this->afterpayOrder->token
         ));
         $immediatePaymentCaptureRequest->setMerchantAccount($this->afterpayMerchantAccount);
         $uri = '/' . $this->config['apiVersion'] . '/payments/capture/';
