@@ -119,7 +119,7 @@ class Afterpayofficial extends PaymentModule
     {
         $this->name = 'afterpayofficial';
         $this->tab = 'payments_gateways';
-        $this->version = '1.1.0';
+        $this->version = '1.1.1';
         $this->author = $this->l('Afterpay');
         $this->currencies = true;
         $this->currencies_mode = 'checkbox';
