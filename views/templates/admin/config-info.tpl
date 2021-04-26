@@ -57,7 +57,7 @@
     <div class="panel afterpay-content-form">
         <h3><i class="icon icon-credit-card"></i> {$header|escape:'htmlall':'UTF-8'}</h3>
         <div class="column-left">
-            <a target="_blank" href="{l s='https://get.afterpay.com/' mod='afterpayofficial'}" class="btn btn-default" title="Login Afterpay"><i class="icon-user"></i> {$button1|escape:'htmlall':'UTF-8'}</a><br>
+            <a target="_blank" href="{l s='https://retailers.afterpay.com/platform-partner/?utm_medium=plugin-b2b&utm_source=platform-partner-b2b&utm_campaign=gl-prestashop&utm_term=prestashop' mod='afterpayofficial'}" class="btn btn-default" title="Login Afterpay"><i class="icon-user"></i> {$button1|escape:'htmlall':'UTF-8'}</a><br>
             <a target="_blank" href="{l s='https://developers.afterpay.com/afterpay-online/docs/getting-started' mod='afterpayofficial'}" class="btn btn-default second" title="Getting Star"><i class="icon-user"></i> {$button2|escape:'htmlall':'UTF-8'}</a>
         </div>
         <div class="column-center">
