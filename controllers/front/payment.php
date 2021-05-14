@@ -317,12 +317,7 @@ class AfterpayofficialPaymentModuleFrontController extends AbstractController
     private function getCountryCode($paymentObjData)
     {
         $allowedCountries = json_decode(Configuration::get('AFTERPAY_ALLOWED_COUNTRIES'));
-        $lang = Language::getLanguage($this->context->language->id);
-        $langArray = explode("-", $lang['language_code']);
-        if (count($langArray) != 2 && isset($lang['locale'])) {
-            $langArray = explode("-", $lang['locale']);
-        }
-        $language = Tools::strtoupper($langArray[count($langArray)-1]);
+        $language = Tools::strtoupper(Configuration::get('PS_LOCALE_COUNTRY'));
         // Prevent null language detection
         if (in_array(Tools::strtoupper($language), $allowedCountries)) {
             return $language;
