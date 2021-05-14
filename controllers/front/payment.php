@@ -35,6 +35,18 @@ class AfterpayofficialPaymentModuleFrontController extends AbstractController
     );
 
     /**
+     * Default currency per region
+     *
+     * @var array
+     */
+    public $defaultLanguagePerCurrency = array(
+        'AUD' => 'AU',
+        'CAD' => 'CA',
+        'NZD' => 'NZ',
+        'USD' => 'US',
+    );
+
+    /**
      * @param $region
      * @return string
      */
@@ -123,8 +135,8 @@ class AfterpayofficialPaymentModuleFrontController extends AbstractController
                 ->setSecretKey($paymentObjData['secretKey'])
                 ->setApiEnvironment($paymentObjData['environment'])
             ;
-            if (!is_null($paymentObjData['countryCode'])) {
-                $afterpayMerchantAccount->setCountryCode($paymentObjData['countryCode']);
+            if (isset($this->defaultLanguagePerCurrency[$paymentObjData['currency']])) {
+                $afterpayMerchantAccount->setCountryCode($this->defaultLanguagePerCurrency[$paymentObjData['currency']]);
             }
 
             $afterpayPaymentObj
