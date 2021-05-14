@@ -343,18 +343,22 @@ class Afterpayofficial extends PaymentModule
     public function hookHeader()
     {
         if (Context::getContext()->controller->php_self === 'product') {
-            echo '<!-- APVersion:'. $this->version.
-                ' PS:'._PS_VERSION_.
-                ' Env:'.Configuration::get('AFTERPAY_ENVIRONMENT').
-                ' MId:'.Configuration::get('AFTERPAY_PUBLIC_KEY').
-                ' Region:'.Configuration::get('AFTERPAY_REGION').
-                ' Lang:'.$this->getCurrentLanguageCode().
-                ' Currency:'.$this->currency.
-                ' IsoCode:'.$this->getIsoCountryCode().
-                ' Enabled:'.Configuration::get('AFTERPAY_IS_ENABLED').
-                ' A_Countries:'.Configuration::get('AFTERPAY_ALLOWED_COUNTRIES').
-                ' R_Cat:'.(string)Configuration::get('AFTERPAY_RESTRICTED_CATEGORIES').
-                ' -->';
+            try {
+                echo '<!-- CPVersion:'. $this->version.
+                    ' PS:'._PS_VERSION_.
+                    ' Env:'.Configuration::get('AFTERPAY_ENVIRONMENT').
+                    ' MId:'.Configuration::get('AFTERPAY_PUBLIC_KEY').
+                    ' Region:'.Configuration::get('AFTERPAY_REGION').
+                    ' Lang:'.$this->getCurrentLanguageCode().
+                    ' Currency:'.$this->currency.
+                    ' IsoCode:'.$this->getIsoCountryCode().
+                    ' Enabled:'.Configuration::get('AFTERPAY_IS_ENABLED').
+                    ' A_Countries:'.Configuration::get('AF  TERPAY_ALLOWED_COUNTRIES').
+                    ' R_Cat:'.(string)Configuration::get('AFTERPAY_RESTRICTED_CATEGORIES').
+                    ' -->';
+            } catch (\Exception $exception) {
+                // Continue
+            }
         }
         if (_PS_VERSION_ >= "1.7") {
             $this->context->controller->registerJavascript(
@@ -403,7 +407,7 @@ class Afterpayofficial extends PaymentModule
             $templateConfigs['MORE_INFO_TEXT'] = '_hide_';
             $templateConfigs['LOGO_TEXT'] = $this->l("Afterpay");
             $templateConfigs['ICON'] = 'https://static.afterpay.com/app/icon-128x128.png';
-            $templateConfigs['LOGO_BADGE'] = 'https://static.afterpay.com/logo/compact-badge-afterpay-black-on-mint.svg';
+            $templateConfigs['LOGO_BADGE'] ='https://static.afterpay.com/logo/compact-badge-afterpay-black-on-mint.svg';
             $templateConfigs['LOGO_OPC'] = Media::getMediaPath(_PS_MODULE_DIR_.$this->name.'/views/img/logo_opc.png');
             $templateConfigs['PAYMENT_URL'] = $link->getModuleLink($this->name, 'payment');
             $mobileViewLayout = Tools::strtolower('four-by-one');
@@ -875,7 +879,7 @@ class Afterpayofficial extends PaymentModule
             $templateConfigs['MORE_INFO_TEXT'] = '_hide_';
             $templateConfigs['LOGO_TEXT'] = $this->l("Afterpay");
             $templateConfigs['ICON'] = 'https://static.afterpay.com/app/icon-128x128.png';
-            $templateConfigs['LOGO_BADGE'] = 'https://static.afterpay.com/logo/compact-badge-afterpay-black-on-mint.svg';
+            $templateConfigs['LOGO_BADGE'] ='https://static.afterpay.com/logo/compact-badge-afterpay-black-on-mint.svg';
             $templateConfigs['LOGO_OPC'] = Media::getMediaPath(_PS_MODULE_DIR_.$this->name.'/views/img/logo_opc.png');
             $templateConfigs['PAYMENT_URL'] = $link->getModuleLink($this->name, 'payment');
             $mobileViewLayout = Tools::strtolower('four-by-one');
@@ -1130,14 +1134,13 @@ class Afterpayofficial extends PaymentModule
      */
     public function hookActionOrderStatusUpdate($params)
     {
-        if (empty($order) || empty($order->payment) || $order->payment != self::PRODUCT_PAYMENT_NAME) {
-            return false;
-        }
-
         $newOrderStatus = null;
         $order = null;
         if (!empty($params) && !empty($params['id_order'])) {
             $order = new Order((int)$params['id_order']);
+        }
+        if (empty($order) || empty($order->payment) || $order->payment != self::PRODUCT_PAYMENT_NAME) {
+            return false;
         }
 
         if (!empty($params) && !empty($params['newOrderStatus'])) {
@@ -1354,7 +1357,8 @@ class Afterpayofficial extends PaymentModule
     /**
      * @return mixed|string|string[]
      */
-    public function getIsoCountryCode() {
+    public function getIsoCountryCode()
+    {
         if ($this->currency != 'EUR') {
             if (!isset($this->defaultLanguagePerCurrency[$this->currency])) {
                 return 'NonAccepted';
@@ -1428,7 +1432,8 @@ class Afterpayofficial extends PaymentModule
     /**
      * @return bool
      */
-    private function isRestrictedByLangOrCurrency() {
+    private function isRestrictedByLangOrCurrency()
+    {
         $language = $this->getCurrentLanguageCode();
         $allowedCountries = json_decode(Configuration::get('AFTERPAY_ALLOWED_COUNTRIES'));
         $return = (in_array(Tools::strtoupper($language), $allowedCountries) &&
@@ -1436,5 +1441,4 @@ class Afterpayofficial extends PaymentModule
         );
         return !$return;
     }
-
 }
