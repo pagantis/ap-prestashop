@@ -342,9 +342,15 @@ class Afterpayofficial extends PaymentModule
      */
     public function hookHeader()
     {
+        if (version_compare(_PS_VERSION_, '1.7', 'lt')) {
+            $template = $this->hookDisplayWrapperTop();
+            if (!empty($template)) {
+                echo($template);
+            }
+        }
         if (Context::getContext()->controller->php_self === 'product') {
             try {
-                echo '<!-- CPVersion:'. $this->version.
+                echo '<!-- APVersion:'. $this->version.
                     ' PS:'._PS_VERSION_.
                     ' Env:'.Configuration::get('AFTERPAY_ENVIRONMENT').
                     ' MId:'.Configuration::get('AFTERPAY_PUBLIC_KEY').
