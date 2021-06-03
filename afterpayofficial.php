@@ -366,15 +366,6 @@ class Afterpayofficial extends PaymentModule
                 // Continue
             }
         }
-        if (_PS_VERSION_ >= "1.7") {
-            $this->context->controller->registerJavascript(
-                sha1(mt_rand(1, 90000)),
-                self::AFTERPAY_JS_CDN_URL,
-                array('server' => 'remote')
-            );
-        } else {
-            $this->context->controller->addJS(self::AFTERPAY_JS_CDN_URL);
-        }
     }
 
     /**
