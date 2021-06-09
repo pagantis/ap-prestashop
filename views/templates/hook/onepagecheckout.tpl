@@ -11,21 +11,17 @@
 		margin-top: -15px;
 		margin-bottom: 0px;
 	}
-
 	p.payment_module a.afterpay-checkout {
 		background: url('{$ICON|escape:'htmlall':'UTF-8'}') 5px 5px no-repeat #fbfbfb;
-		background-size: 79px;
+		background-size: 80px;
 	}
-
 	p.payment_module a.afterpay-checkout.ps_version_1-7 {
 		background: none;
 	}
-
 	p.payment_module a.afterpay-checkout.ps_version_1-6 {
 		background-color: #fbfbfb;
-		max-height: 90px;
+		font-size: 1.3em;
 	}
-
 	p.payment_module a.afterpay-checkout.ps_version_1-6:after {
 		display: block;
 		content: "\f054";
@@ -39,7 +35,6 @@
 		width: 14px;
 		color: #777;
 	}
-
 	p.payment_module a:hover {
 		background-color: #f6f6f6;
 	}
@@ -49,111 +44,44 @@
 		border: 1px solid #000;
 		margin-bottom: 10px;
 	}
-
 	.afterpay-header {
 		color: #7a7a7a;
 		position: relative;
-		background-color: #b2fce4;
 		text-align: center;
-		float: left;
-		width: 100%;
-		min-height: 35px;
-		padding-top: 7px;
-		margin-bottom: 10px;
-		padding-bottom: 5px;
+		background-color: #b2fce4;
+		padding: 5px 10px 10px 0px;
+		overflow: visible;
 	}
-
 	.afterpay-header img {
-		height: 25px;
+		height: 28px;
 	}
 
 	.afterpay-header-img {
 		display: inline;
-		text-align: center;
 	}
 
 	.afterpay-header-text1 {
 		display: inline;
+		text-align: center;
 		color: black;
 		font-weight: bold;
 	}
-
 	.afterpay-header-text2 {
-		display: inline;
-	}
-
-	.afterpay-checkout-ps1-6-logo {
-		height: 35px;
-		margin-left: 10px;
-		top: 30%;
-		position: absolute;
-		display: inline !important;
-	}
-
-	.afterpay-checkout-ps1-6-logo-text {
-		display: none;
-	}
-
-	.afterpay-more-info-text {
-		padding: 1em 3em;
+		display: inline-block;
 		text-align: center;
 	}
-
-	.afterpay-terms {
-		margin-top: 10px;
-		display: inline-block;
+	.afterpay-checkout-ps1-6-logo {
+		height: 45px;
+		margin-left: 10px;
+		top: 25%;
+		position: absolute;
 	}
-
-	@media only screen and (max-width: 1200px) {
-		.afterpay-header {
-			text-align: center;
-			display: block;
-			height: 65px !important;
-		}
+	.afterpay-more-info-text {
+		padding: 1em 1em;
+		text-align: center;
 	}
-
-	@media only screen and (max-width: 1200px) and (min-width: 990px) {
-		.afterpay-header img {
-			padding: 0;
-		}
-	}
-
-	@media only screen and (max-width: 989px) and (min-width: 768px) {
-		.afterpay-header img {
-			padding: 0;
-		}
-
-		.afterpay-header {
-			height: 70px !important;
-		}
-	}
-
-	@media only screen and (max-width: 767px) and (min-width: 575px) {
-		.afterpay-header img {
-			padding: 0;
-		}
-
-		.afterpay-header {
-			height: 65px !important;
-		}
-	}
-
-	@media only screen and (max-width: 575px) {
-		.afterpay-header img {
-			padding: 0;
-		}
-
-		.afterpay-header {
-			height: 80px !important;
-		}
-
-		.afterpay-checkout-ps1-6-logo {
-			display: none;
-		}
-
-		.afterpay-checkout-ps1-6-logo-text {
-			display: inline;
-		}
+	.afterpay-more-info {
+		text-align: center !important;
 	}
 
 	.ps-afterpay-container {
@@ -169,7 +97,7 @@
 	}
 
 	.ap-ps-checkout-header {
-		grid-area: ap-ps-checkout-header;
+		grid-area: ap-ps-checkout-header ;
 		display: -webkit-box;
 		display: -ms-flexbox;
 		display: flex;
@@ -237,13 +165,12 @@
 		font-size: .800rem;
 	}
 
-	.ap-terms-wrapper {
+	.ap-terms-wrapper{
 		display: inline-flex;
 		flex-direction: row;
 		justify-content: center;
 		font-size: 14px;
 	}
-
 	.afterpay-terms-link {
 		display: inline-block;
 		flex-direction: column;
@@ -251,10 +178,9 @@
 		text-align: center;
 		padding-bottom: 7px;
 		padding-left: 7px;
-		padding-right: 7px;
 	}
 
-	@media only screen and (max-width: 575px) {
+	@media (max-width: 575px) {
 
 		.ap-ps-header-img {
 			align-self: center;
@@ -264,14 +190,12 @@
 		.ap-ps-header-row {
 			flex-direction: column;
 		}
-
-		.ap-terms-wrapper {
+		.ap-terms-wrapper{
 			display: inline-flex;
 			flex-direction: column;
 			justify-content: center;
 			font-size: 12px;
 		}
-
 		.afterpay-terms-link {
 			display: inline-block;
 			flex-direction: column;
@@ -280,19 +204,17 @@
 			padding-bottom: 7px;
 			font-size: 12px;
 			padding-left: 5px;
-			padding-right: 5px;
 		}
 
 	}
 </style>
 {if $PS_VERSION !== '1-7'}
 	<div class="row">
-		<div class="col-xs-12">
+		<div class="col-xs-12 col-md-12">
 			<p class="payment_module">
 				<a class="afterpay-checkout afterpay-checkout ps_version_{$PS_VERSION|escape:'htmlall':'UTF-8'}" href="{$PAYMENT_URL|escape:'htmlall':'UTF-8'}">
-                    {$TITLE|escape:'htmlall':'UTF-8'}
+					{$TITLE|escape:'htmlall':'UTF-8'}
 					<img class="afterpay-checkout-ps{$PS_VERSION|escape:'htmlall':'UTF-8'}-logo" src="{$LOGO_BADGE|escape:'htmlall':'UTF-8'}">
-					<span class="afterpay-checkout-ps{$PS_VERSION|escape:'htmlall':'UTF-8'}-logo-text">{$LOGO_TEXT|escape:'htmlall':'UTF-8'}</span>
 				</a>
 			</p>
 		</div>
@@ -325,26 +247,27 @@
 							</afterpay-placement>
 						</div>
 						<div class="ap-terms-wrapper">
-                            {if $MORE_INFO_TEXT !== '_hide_'}
+							{if $ISO_COUNTRY_CODE == 'es_ES' }
 								<a class="afterpay-terms-link" href="{$TERMS_AND_CONDITIONS_LINK|escape:'htmlall':'UTF-8'}" TARGET="_blank">
-                                    {$TERMS_AND_CONDITIONS|escape:'htmlall':'UTF-8'}
+									{$TERMS_AND_CONDITIONS|escape:'htmlall':'UTF-8'}
 								</a>
-                                {if $IS_MOBILE_LAYOUT == "0"}
+								{if $IS_MOBILE_LAYOUT == "0"}
 									&nbsp;|&nbsp;
-                                {else}
+								{else}
 									&nbsp;-&nbsp;
-                                {/if}
+								{/if}
 								<a class="afterpay-terms-link" href="javascript:void(0)" onclick="Afterpay.launchModal('{$ISO_COUNTRY_CODE|escape:'javascript':'UTF-8'}');">
-                                    {$MORE_INFO_TEXT|escape:'htmlall':'UTF-8'}
+									{$MORE_INFO_TEXT|escape:'htmlall':'UTF-8'}
 								</a>
-                            {else}
+							{else}
 								<a class="afterpay-terms-link" href="{$TERMS_AND_CONDITIONS_LINK|escape:'htmlall':'UTF-8'}" TARGET="_blank">
-                                    {$TERMS_AND_CONDITIONS|escape:'htmlall':'UTF-8'}
+									{$TERMS_AND_CONDITIONS|escape:'htmlall':'UTF-8'}
 								</a>
-                            {/if}
+							{/if}
 						</div>
 					</div>
 				</div>
 			</div>
+		</div>
 	</section>
 {/if}

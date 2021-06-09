@@ -35,6 +35,18 @@ class AfterpayofficialPaymentModuleFrontController extends AbstractController
     );
 
     /**
+     * Default currency per region
+     *
+     * @var array
+     */
+    public $defaultLanguagePerCurrency = array(
+        'AUD' => 'AU',
+        'CAD' => 'CA',
+        'NZD' => 'NZ',
+        'USD' => 'US',
+    );
+
+    /**
      * @param $region
      * @return string
      */
@@ -123,8 +135,8 @@ class AfterpayofficialPaymentModuleFrontController extends AbstractController
                 ->setSecretKey($paymentObjData['secretKey'])
                 ->setApiEnvironment($paymentObjData['environment'])
             ;
-            if (!is_null($paymentObjData['countryCode'])) {
-                $afterpayMerchantAccount->setCountryCode($paymentObjData['countryCode']);
+            if (isset($this->defaultLanguagePerCurrency[$paymentObjData['currency']])) {
+                $afterpayMerchantAccount->setCountryCode($this->defaultLanguagePerCurrency[$paymentObjData['currency']]);
             }
 
             $afterpayPaymentObj
@@ -317,12 +329,7 @@ class AfterpayofficialPaymentModuleFrontController extends AbstractController
     private function getCountryCode($paymentObjData)
     {
         $allowedCountries = json_decode(Configuration::get('AFTERPAY_ALLOWED_COUNTRIES'));
-        $lang = Language::getLanguage($this->context->language->id);
-        $langArray = explode("-", $lang['language_code']);
-        if (count($langArray) != 2 && isset($lang['locale'])) {
-            $langArray = explode("-", $lang['locale']);
-        }
-        $language = Tools::strtoupper($langArray[count($langArray)-1]);
+        $language = Tools::strtoupper(Configuration::get('PS_LOCALE_COUNTRY'));
         // Prevent null language detection
         if (in_array(Tools::strtoupper($language), $allowedCountries)) {
             return $language;
