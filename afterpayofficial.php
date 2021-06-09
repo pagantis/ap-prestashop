@@ -161,7 +161,7 @@ class Afterpayofficial extends PaymentModule
     {
         $this->name = 'afterpayofficial';
         $this->tab = 'payments_gateways';
-        $this->version = '1.1.2';
+        $this->version = '1.1.2.1';
         $this->author = $this->l('Afterpay');
         $this->currencies = true;
         $this->currencies_mode = 'checkbox';
@@ -364,6 +364,17 @@ class Afterpayofficial extends PaymentModule
                     ' -->';
             } catch (\Exception $exception) {
                 // Continue
+            }
+        }
+        if (Context::getContext()->controller->php_self === 'order') {
+            if (_PS_VERSION_ >= "1.7") {
+                $this->context->controller->registerJavascript(
+                    sha1(mt_rand(1, 90000)),
+                    self::AFTERPAY_JS_CDN_URL,
+                    array('server' => 'remote')
+                );
+            } else {
+                $this->context->controller->addJS(self::AFTERPAY_JS_CDN_URL);
             }
         }
     }
